@@ -31,7 +31,7 @@ public class UnitHealth : MonoBehaviour
         } else
         {
             block = 0;
-            health -= damageToHealth;
+            health = Mathf.Clamp(health - damageToHealth, 0, maxHealth);
         }
     }
 
