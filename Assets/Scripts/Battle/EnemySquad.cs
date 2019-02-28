@@ -46,6 +46,26 @@ public class EnemySquad : MonoBehaviour
         enemies = deployedEnemies;
     }
 
+    public GameObject getFirstEnemyInColumn(int column)
+    {
+        GameObject nearestEnemy = null;
+
+        foreach(GameObject enemy in enemies)
+        {
+            GridPosition enemyPos = enemy.GetComponent<GridPosition>();
+            if(enemyPos.column == column)
+            {
+                if(nearestEnemy == null) { nearestEnemy = enemy; }
+                else if(nearestEnemy.GetComponent<GridPosition>().column > enemyPos.column)
+                {
+                    nearestEnemy = enemy;
+                }
+            }
+        }
+
+        return nearestEnemy;
+    }
+
     public void OnTurnStart()
     {
         foreach(GameObject enemy in enemies)

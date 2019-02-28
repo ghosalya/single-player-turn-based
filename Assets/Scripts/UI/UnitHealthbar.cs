@@ -28,4 +28,9 @@ public class UnitHealthbar : MonoBehaviour
         healthbarPlane.localScale = new Vector3(XScale * unitHealth.health / unitHealth.maxHealth, 1, ZScale);
         healthbarNumber.text = unitHealth.health.ToString();
     }
+
+    void UpdateUI()
+    {
+        updateHealth();
+    }
 }

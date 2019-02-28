@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
     public int maxHealth = 500;
     public int health { get; private set; }
     public int energy { get; private set; }
+    public int[] block = new int[4];
+
+    public int[] cellSelected = null;
 
     public List<Card> drawPile;
     public List<Card> handCards;
