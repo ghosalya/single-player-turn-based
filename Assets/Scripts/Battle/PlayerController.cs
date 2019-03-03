@@ -39,6 +39,10 @@ public class PlayerController : MonoBehaviour
         draw(5);
     }
 
+    public void OnTurnEnd() {
+        energy = Mathf.Clamp(energy + 100, 0, 150);
+    }
+
     public void draw(int drawCount)
     {
         for(int i = 0; i < drawCount; i++)

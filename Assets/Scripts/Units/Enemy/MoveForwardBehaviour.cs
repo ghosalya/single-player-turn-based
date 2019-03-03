@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveForwardBehaviour : MonoBehaviour
+public class MoveForwardBehaviour : UnitBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public override void act() {
+        GridPosition gridpos = GetComponent<GridPosition>();
+        if (gridpos.row > 1) {
+            gridpos.row -= 1;
+        }
     }
 }

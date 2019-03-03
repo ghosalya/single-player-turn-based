@@ -24,13 +24,13 @@ public class BattleManager : MonoBehaviour
     public void startTurn()
     {
         playerPhase = true;
-        SendMessage("OnTurnStart");
+        gameObject.SendMessage("OnTurnStart");
     }
 
     public void endTurn()
     {
         playerPhase = false;
-        SendMessage("OnTurnEnd");
+        gameObject.SendMessage("OnTurnEnd");
     }
 
     public bool victory()

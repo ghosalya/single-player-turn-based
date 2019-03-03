@@ -15,7 +15,9 @@ public class DamageFirstInLane : Effect
         PlayerController pcon = battle.GetComponent<PlayerController>();
         int column = pcon.cellSelected[0];
         GameObject enemy = battle.GetComponent<EnemySquad>().getFirstEnemyInColumn(column);
-        enemy.GetComponent<UnitHealth>().takeDamage(damage);
+        if(enemy != null) {
+            enemy.GetComponent<UnitHealth>().takeDamage(damage);
+        }
 
         spawnAnimation(column);
     }

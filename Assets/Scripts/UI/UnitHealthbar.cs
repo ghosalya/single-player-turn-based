@@ -27,6 +27,16 @@ public class UnitHealthbar : MonoBehaviour
         UnitHealth unitHealth = GetComponent<UnitHealth>();
         healthbarPlane.localScale = new Vector3(XScale * unitHealth.health / unitHealth.maxHealth, 1, ZScale);
         healthbarNumber.text = unitHealth.health.ToString();
+
+        if (unitHealth.health <= 0) {
+            animateDeath();
+        }
+    }
+
+    void animateDeath() {
+        EnemySquad squad = GameObject.FindGameObjectWithTag("Battle").GetComponent<EnemySquad>();
+        squad.enemies.Remove(gameObject);  // remove this from squad
+        Destroy(gameObject);
     }
 
     void UpdateUI()

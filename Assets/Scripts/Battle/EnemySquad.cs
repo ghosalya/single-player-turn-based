@@ -25,6 +25,9 @@ public class EnemySquad : MonoBehaviour
         {
             enemyObject.GetComponent<UnitBehaviour>().act();
         }
+        
+        BattleManager battleManager = GameObject.FindGameObjectWithTag("Battle").GetComponent<BattleManager>();
+        battleManager.startTurn();
     }
 
     public void deploy()
@@ -76,6 +79,7 @@ public class EnemySquad : MonoBehaviour
 
     public void OnTurnEnd()
     {
+        act();
         foreach(GameObject enemy in enemies)
         {
             enemy.SendMessage("OnTurnEnd");
