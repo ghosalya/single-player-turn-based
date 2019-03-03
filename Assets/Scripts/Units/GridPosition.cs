@@ -6,8 +6,8 @@ public class GridPosition : MonoBehaviour
 {
     public static float columnXOffset = -14.5f;
     public static float columnXFactor = 9.75f;
-    public static float rowYOffset = -21.5f;
-    public static float rowYFactor = 7.25f;
+    public static float rowYOffset = -21f;
+    public static float rowYFactor = 7.85f;
 
     public float moveSpeed = 100f;
     public int column = 0;  // Leftmost column is column 0

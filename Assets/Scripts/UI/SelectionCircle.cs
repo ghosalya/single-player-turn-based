@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SelectionCircle : MonoBehaviour
 {
+    public Vector3 hitcoor;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,9 +26,10 @@ public class SelectionCircle : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if( Physics.Raycast(ray, out hit, 100.0f))
         {
+            hitcoor = hit.point;
             GridPosition gridPos = GetComponent<GridPosition>();
-            gridPos.row = (int) ((hit.point.z - GridPosition.rowYOffset) / GridPosition.rowYFactor);
-            gridPos.column = (int) ((hit.point.x - GridPosition.columnXOffset) / GridPosition.columnXFactor);
+            gridPos.row = Mathf.RoundToInt((hit.point.z - GridPosition.rowYOffset) / GridPosition.rowYFactor);
+            gridPos.column = Mathf.RoundToInt((hit.point.x - GridPosition.columnXOffset) / GridPosition.columnXFactor);
         }
     }
 
