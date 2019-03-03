@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class UnitHealth : MonoBehaviour
 {
-    public int maxHealth { get; private set; }
-    public int health { get; private set; }
-    public int block { get; private set; }
+    public int maxHealth; // { get; private set; }
+    public int health; // { get; private set; }
+    public int block; // { get; private set; }
 
     // Start is called before the first frame update
     void Start()

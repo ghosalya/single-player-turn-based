@@ -16,6 +16,7 @@ public class Card : ScriptableObject
     public string cardName;
     public string description;
     public int cost;
+    public bool needTarget;
     public CardType type;
     public Effect[] effects;
 }
