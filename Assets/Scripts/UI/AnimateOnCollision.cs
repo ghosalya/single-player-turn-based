@@ -19,5 +19,7 @@ public class AnimateOnCollision : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         other.gameObject.SendMessage("UpdateUI");
+        Debug.Log("Projectile hit");
+        Destroy(gameObject);
     }
 }

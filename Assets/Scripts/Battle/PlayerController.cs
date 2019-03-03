@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     public int[] block = new int[4];
 
     public int[] cellSelected = null;
+    public Card cardPlayed = null;
+    public GameObject selectionCircle;
 
     public List<Card> drawPile;
     public List<Card> handCards;
@@ -18,13 +20,18 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        // temporary
+        health = 500;
+        energy = 100;
+
+        cardPlayed = null;
+        cellSelected = null;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        executePlayedCard();
     }
 
     public void OnTurnStart()
@@ -44,18 +51,38 @@ public class PlayerController : MonoBehaviour
 
     public bool canPlay(Card card)
     {
-        return card.cost < energy;
+        return card.cost <= energy;
+    }
+
+    public void selectCardAsPlayed(Card card) {
+        cardPlayed = card;
+        if(card.needTarget) {
+            selectionCircle.SetActive(true);
+        }
+    }
+
+    public void executePlayedCard() {
+        if(cardPlayed != null) {
+            if(cardPlayed.needTarget == false || cellSelected != null) {
+                energy -= cardPlayed.cost;
+                foreach(Effect effect in cardPlayed.effects)
+                {
+                    effect.activate();
+                }
+
+                // after paying, reset controller states
+                cardPlayed = null;
+                cellSelected = null;
+            }
+        }
+        // else pass
     }
 
     public void play(Card card)
     {
         if(canPlay(card))
         {
-            energy -= card.cost;
-            foreach(Effect effect in card.effects)
-            {
-                effect.activate();
-            }
+            selectCardAsPlayed(card);
         } else
         {
             Debug.LogError("Card Unplayable: " + card.cardName);

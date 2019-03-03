@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: StrikeDamage
   m_EditorClassIdentifier: 
   damage: 10
-  prefab: {fileID: 0}
+  prefab: {fileID: 4227094512056127361, guid: 52074da206274df4c8fd45470dc3f207, type: 3}

@@ -10,9 +10,10 @@ public class DamageFirstInLane : Effect
 
     public override void activate()
     {
-        int column = 1;  // change to use target
-
         GameObject battle = GameObject.FindGameObjectWithTag("Battle");
+
+        PlayerController pcon = battle.GetComponent<PlayerController>();
+        int column = pcon.cellSelected[0];
         GameObject enemy = battle.GetComponent<EnemySquad>().getFirstEnemyInColumn(column);
         enemy.GetComponent<UnitHealth>().takeDamage(damage);
 

@@ -12,13 +12,13 @@ public class UnitHealthbar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        updateHealth();
     }
 
     // Update is called once per frame
     void Update()
     {
-        updateHealth();
+        // updateHealth();
         // healthbarPlane.LookAt(Camera.main.transform);
     }
 
