@@ -116,8 +116,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void takeDamage(int damage)
+    public void takeDamage(int damage, int column)
     {
-        health = Mathf.Clamp(health - damage, 0, maxHealth);
+        int damageTaken = damage - block[column];
+        if(damageTaken > 0) {
+            block[column] = 0;
+            health = Mathf.Clamp(health - damageTaken, 0, maxHealth);
+        } else {
+            block[column] -= damage;
+        }
     }
 }
