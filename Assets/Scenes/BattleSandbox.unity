@@ -1879,7 +1879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 4048164351646059075}
-  card: {fileID: 11400000, guid: 71bccf44362174c76ac396bf65eab624, type: 2}
+  card: {fileID: 11400000, guid: 45541fb2342604b589cdd5b083ac2abe, type: 2}
   cardNameText: {fileID: 753538176}
   cardCostText: {fileID: 1158817332}
   cardDescriptionText: {fileID: 515963987}
