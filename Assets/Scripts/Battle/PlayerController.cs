@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public List<Card> drawPile;
     public List<Card> handCards;
     public List<Card> discardPile;
+    public bool startOfTurn = false;
 
     public List<Buff> buffs;
 
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour
     public void OnTurnStart()
     {
         draw(5);
+        startOfTurn = true;
         FeedEventToBuffs("OnTurnStart");
     }
 
