@@ -12,14 +12,10 @@ public class Blockeffect : Effect
 
         PlayerController pcon = battle.GetComponent<PlayerController>();
         int column = pcon.cellSelected[0];
-        pcon.block[column] += blockgain;
 
-
-
-
-
-
-           }
+        int modifiedBlockGain = pcon.getModifiedBlock(blockgain);
+        pcon.block[column] += modifiedBlockGain;
+    }
 
     // Update is called once per frame
     void Update()
