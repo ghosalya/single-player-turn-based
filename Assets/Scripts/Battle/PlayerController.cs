@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public int health { get; private set; }
     public int energy { get; private set; }
     public int[] block = new int[4];
+    public GameObject familiar;
+    public Transform famil;
 
     public int[] cellSelected = null;
     public Card cardPlayed = null;
@@ -16,6 +18,8 @@ public class PlayerController : MonoBehaviour
     public List<Card> drawPile;
     public List<Card> handCards;
     public List<Card> discardPile;
+
+    public bool strengthenmode = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +36,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         executePlayedCard();
+
     }
 
     public void OnTurnStart()
@@ -41,6 +46,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnTurnEnd() {
         energy = Mathf.Clamp(energy + 100, 0, 150);
+        strengthenmode = false;
     }
 
     public void draw(int drawCount)
@@ -118,12 +124,15 @@ public class PlayerController : MonoBehaviour
 
     public void takeDamage(int damage, int column)
     {
+
         int damageTaken = damage - block[column];
-        if(damageTaken > 0) {
+        if (damageTaken > 0) {
             block[column] = 0;
             health = Mathf.Clamp(health - damageTaken, 0, maxHealth);
         } else {
             block[column] -= damage;
         }
+
+
     }
 }
