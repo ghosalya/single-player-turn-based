@@ -1150,6 +1150,9 @@ MonoBehaviour:
   energyBar: {fileID: 980803712}
   energyText: {fileID: 1950354541}
   cards: {fileID: 2713205835863438411, guid: c432b600b129abd448475f65003e9fc4, type: 3}
+  cardPlayed: {fileID: 0}
+  selectionCircle: {fileID: 1780621113}
+  pcon: {fileID: 0}
 --- !u!1 &1205641771
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,8 +1678,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 742563576}
+  m_Children: [{fileID: 742563576}]
   m_Father: {fileID: 2126806524}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
