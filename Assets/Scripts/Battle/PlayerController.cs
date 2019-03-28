@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     public List<Card> handCards;
     public List<Card> discardPile;
 
-    public bool strengthenmode = false;
+    public List<Buff> buffs;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
 
         cardPlayed = null;
         cellSelected = null;
+
+        buffs = new List<Buff>();
     }
 
     // Update is called once per frame
@@ -42,11 +44,28 @@ public class PlayerController : MonoBehaviour
     public void OnTurnStart()
     {
         draw(5);
+        FeedEventToBuffs("OnTurnStart");
+    }
+
+    public void FeedEventToBuffs(string eventID)
+    {
+        foreach(Buff buff in buffs) {
+            buff.OnEvent(eventID);
+        }
     }
 
     public void OnTurnEnd() {
         energy = Mathf.Clamp(energy + 100, 0, 150);
-        strengthenmode = false;
+
+        // buff handling
+        List<Buff> buffnext = new List<Buff>();
+        foreach(Buff buff in buffs) {
+            buff.ConsumeStackOnTurnEnd();
+            if(buff.stack > 0) {buffnext.Add(buff);}
+        }
+        buffs = buffnext;
+
+        FeedEventToBuffs("OnTurnEnd");
     }
 
     public void draw(int drawCount)
@@ -57,6 +76,7 @@ public class PlayerController : MonoBehaviour
             drawPile.Remove(drawnCard);
             handCards.Add(drawnCard);
         }
+        FeedEventToBuffs("OnDraw");
     }
 
     public bool canPlay(Card card)
@@ -78,6 +98,7 @@ public class PlayerController : MonoBehaviour
                 foreach(Effect effect in cardPlayed.effects)
                 {
                     effect.activate();
+                    FeedEventToBuffs("OnCardPlay");
                 }
 
                 // after paying, reset controller states
@@ -132,7 +153,29 @@ public class PlayerController : MonoBehaviour
         } else {
             block[column] -= damage;
         }
+    }
 
+    public int getModifiedDamage(int originalDamage)
+    {
+        int finalDamage = originalDamage;
+        foreach (Buff buff in buffs) {
+            finalDamage = buff.MultiplyDamage(finalDamage);
+        }
+        foreach (Buff buff in buffs) {
+            finalDamage = buff.AddBonusDamage(finalDamage);
+        }
+        return finalDamage;
+    }
 
+    public int getModifiedBlock(int originalBlockGain)
+    {
+        int finalBlockGain = originalBlockGain;
+        foreach (Buff buff in buffs) {
+            finalBlockGain = buff.MultiplyBlock(finalBlockGain);
+        }
+        foreach (Buff buff in buffs) {
+            finalBlockGain = buff.AddBonusBlock(finalBlockGain);
+        }
+        return finalBlockGain;
     }
 }

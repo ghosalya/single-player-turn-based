@@ -16,7 +16,8 @@ public class DamageFirstInLane : Effect
         int column = pcon.cellSelected[0];
         GameObject enemy = battle.GetComponent<EnemySquad>().getFirstEnemyInColumn(column);
         if(enemy != null) {
-            enemy.GetComponent<UnitHealth>().takeDamage(damage);
+            int finalDamage = pcon.getModifiedDamage(damage);
+            enemy.GetComponent<UnitHealth>().takeDamage(finalDamage);
         }
 
         spawnAnimation(column);
