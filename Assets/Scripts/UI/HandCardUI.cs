@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class HandCardUI : MonoBehaviour
 {
     public PlayerController playerController;
+    public PlayerUI playerUI;
     public Card card;
     public Text cardNameText;
     public Text cardCostText;
@@ -16,6 +17,7 @@ public class HandCardUI : MonoBehaviour
     void Start()
     {
         playerController = GameObject.FindGameObjectWithTag("Battle").GetComponent<PlayerController>();
+        playerUI = GameObject.Find("BarsPanel").GetComponent<PlayerUI>();
     }
 
     // Update is called once per frame
@@ -25,7 +27,7 @@ public class HandCardUI : MonoBehaviour
         cardCostText.text = "Cost:" + card.cost.ToString();
         cardDescriptionText.text = card.description;
 
-        if(card == playerController.cardPlayed) {
+        if(this == playerUI.cardPlayed) {
             selectedGlow.SetActive(true);
         } else {
             selectedGlow.SetActive(false);
@@ -34,6 +36,6 @@ public class HandCardUI : MonoBehaviour
 
     public void activate()
     {
-        playerController.play(card);
+        playerUI.play(this);
     }
 }

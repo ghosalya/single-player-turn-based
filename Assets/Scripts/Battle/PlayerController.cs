@@ -12,12 +12,13 @@ public class PlayerController : MonoBehaviour
     public Transform famil;
 
     public int[] cellSelected = null;
-    public Card cardPlayed = null;
-    public GameObject selectionCircle;
+    //public GameObject selectionCircle;
 
     public List<Card> drawPile;
     public List<Card> handCards;
     public List<Card> discardPile;
+    public bool startOfTurn = false;
+    public PlayerUI playerUI;
 
     public List<Buff> buffs;
 
@@ -28,10 +29,10 @@ public class PlayerController : MonoBehaviour
         health = 500;
         energy = 100;
 
-        cardPlayed = null;
         cellSelected = null;
 
         buffs = new List<Buff>();
+        playerUI = GameObject.Find("BarsPanel").GetComponent<PlayerUI>();
     }
 
     // Update is called once per frame
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour
     public void OnTurnStart()
     {
         draw(5);
+        startOfTurn = true;
         FeedEventToBuffs("OnTurnStart");
     }
 
@@ -70,6 +72,10 @@ public class PlayerController : MonoBehaviour
 
     public void draw(int drawCount)
     {
+        if(drawPile.Count == 0)
+        {
+            reshuffle();
+        }
         for(int i = 0; i < drawCount; i++)
         {
             Card drawnCard = drawPile[0];
@@ -84,31 +90,35 @@ public class PlayerController : MonoBehaviour
         return card.cost <= energy;
     }
 
+    /*
     public void selectCardAsPlayed(Card card) {
         cardPlayed = card;
         if(card.needTarget) {
             selectionCircle.SetActive(true);
         }
     }
+    */
 
     public void executePlayedCard() {
-        if(cardPlayed != null) {
-            if(cardPlayed.needTarget == false || cellSelected != null) {
-                energy -= cardPlayed.cost;
-                foreach(Effect effect in cardPlayed.effects)
+        if(playerUI.cardPlayed != null) {
+            if(playerUI.cardPlayed.card.needTarget == false || cellSelected != null) {
+                energy -= playerUI.cardPlayed.card.cost;
+                foreach(Effect effect in playerUI.cardPlayed.card.effects)
                 {
                     effect.activate();
                     FeedEventToBuffs("OnCardPlay");
                 }
 
-                // after paying, reset controller states
-                cardPlayed = null;
+                // after playing, reset controller states
+                playerUI.destroyCards(playerUI.cardPlayed);
+                playerUI.cardPlayed = null;
                 cellSelected = null;
             }
         }
         // else pass
     }
 
+    /*
     public void play(Card card)
     {
         if(canPlay(card))
@@ -119,6 +129,7 @@ public class PlayerController : MonoBehaviour
             Debug.LogError("Card Unplayable: " + card.cardName);
         }
     }
+    */
 
     public void discard(Card card)
     {
@@ -138,7 +149,7 @@ public class PlayerController : MonoBehaviour
         for(int i = 0; i < cardsToShuffle; i++)
         {
             int index = Random.Range(0, discardPile.Count);
-            drawPile.Add(drawPile[index]);
+            drawPile.Add(discardPile[index]);
             discardPile.RemoveAt(index);
         }
     }
