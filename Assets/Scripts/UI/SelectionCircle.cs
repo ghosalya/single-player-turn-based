@@ -18,6 +18,7 @@ public class SelectionCircle : MonoBehaviour
         if(Input.GetMouseButtonDown(0)) {
             selectPosition();
         }
+        GetComponent<GridPosition>().UpdateUI();
     }
 
     void getPointedCell()

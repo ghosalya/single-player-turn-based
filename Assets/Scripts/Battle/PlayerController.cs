@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     public bool startOfTurn = false;
     public PlayerUI playerUI;
 
+    public List<Card> battleHistory = new List<Card>();
+    public List<Card> turnHistory = new List<Card>();
+
     public List<Buff> buffs;
 
     // Start is called before the first frame update
@@ -58,6 +61,18 @@ public class PlayerController : MonoBehaviour
 
     public void OnTurnEnd() {
         energy = Mathf.Clamp(energy + 100, 0, 150);
+
+        // history handling
+        foreach(Card card in turnHistory) {
+            battleHistory.Add(card);
+        }
+        turnHistory.Clear();
+        Debug.Log("TurnHistory length " + turnHistory.Count.ToString());
+        Debug.Log("BattleHistory length " + battleHistory.Count.ToString());
+        foreach(Card card in battleHistory) {
+            Debug.Log("Played - " + card.cardName);
+        }
+
         // buff handling
         List<Buff> buffnext = new List<Buff>();
         foreach(Buff buff in buffs) {
@@ -113,6 +128,7 @@ public class PlayerController : MonoBehaviour
                     FeedEventToBuffs("OnCardPlay");
                 }
 
+                turnHistory.Add(playerUI.cardPlayed.card);
                 // after playing, reset controller states
                 playerUI.destroyCards(playerUI.cardPlayed);
                 playerUI.cardPlayed = null;
