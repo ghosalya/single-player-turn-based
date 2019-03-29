@@ -24,6 +24,7 @@ public class EnemySquad : MonoBehaviour
         foreach(GameObject enemyObject in enemies)
         {
             enemyObject.GetComponent<UnitBehaviour>().act();
+            enemyObject.SendMessage("UpdateUI");
         }
         
         BattleManager battleManager = GameObject.FindGameObjectWithTag("Battle").GetComponent<BattleManager>();
@@ -67,6 +68,26 @@ public class EnemySquad : MonoBehaviour
         }
 
         return nearestEnemy;
+    }
+
+    public GameObject getLastEnemyInColumn(int column)
+    {
+        GameObject furthestEnemy = null;
+
+        foreach(GameObject enemy in enemies)
+        {
+            GridPosition enemyPos = enemy.GetComponent<GridPosition>();
+            if(enemyPos.column == column)
+            {
+                if(furthestEnemy == null) { furthestEnemy = enemy; }
+                else if(furthestEnemy.GetComponent<GridPosition>().column < enemyPos.column)
+                {
+                    furthestEnemy = enemy;
+                }
+            }
+        }
+
+        return furthestEnemy;
     }
 
     public void OnTurnStart()

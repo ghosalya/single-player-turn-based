@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         // temporary
         health = 500;
-        energy = 100;
+        energy = 150;
 
         cellSelected = null;
 

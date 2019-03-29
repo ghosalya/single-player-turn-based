@@ -19,4 +19,10 @@ public class Card : ScriptableObject
     public bool needTarget;
     public CardType type;
     public Effect[] effects;
+
+    public void OnEnable() {
+        foreach(Effect effect in effects) {
+            effect.card = this;
+        }
+    }
 }

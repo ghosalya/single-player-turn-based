@@ -8,7 +8,6 @@ public class DamageFirstIfCardIsPlayed : Effect
     public GameObject prefab;
     public int damage;
     public int knockback = 1;
-    public string cardName;
 
     public override void activate() {
         if(cardIsPlayedThisTurn()) {
@@ -33,8 +32,8 @@ public class DamageFirstIfCardIsPlayed : Effect
     public bool cardIsPlayedThisTurn() {
         GameObject battle = GameObject.FindGameObjectWithTag("Battle");
         PlayerController pcon = battle.GetComponent<PlayerController>();
-        foreach(Card card in pcon.turnHistory) {
-            if(card.name == cardName) { return true; }
+        foreach(Card c in pcon.turnHistory) {
+            if(c.cardName == this.card.cardName) { return true; }
         }
         return false;
     }
