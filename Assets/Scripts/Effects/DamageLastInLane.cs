@@ -12,14 +12,14 @@ public class DamageLastInLane : Effect
     public override void activate()
     {
         GameObject battle = GameObject.FindGameObjectWithTag("Battle");
-
+        EnemySquad esquad = battle.GetComponent<EnemySquad>();
         PlayerController pcon = battle.GetComponent<PlayerController>();
         int column = pcon.cellSelected[0];
         GameObject enemy = battle.GetComponent<EnemySquad>().getLastEnemyInColumn(column);
         if(enemy != null) {
             int finalDamage = pcon.getModifiedDamage(damage);
             enemy.GetComponent<UnitHealth>().takeDamage(finalDamage);
-            enemy.GetComponent<GridPosition>().row += knockback;
+            esquad.knockEnemyUp(enemy, knockback);
         }
 
         spawnAnimation(column);

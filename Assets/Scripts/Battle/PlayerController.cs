@@ -124,8 +124,8 @@ public class PlayerController : MonoBehaviour
     */
 
     public void executePlayedCard() {
-        Card card = playerUI.cardPlayed.card;
         if(playerUI.cardPlayed != null) {
+            Card card = playerUI.cardPlayed.card;
             if(card.needTarget == false || cellSelected != null) {
                 energy -= card.cost;
                 foreach(Effect effect in card.effects)
@@ -140,6 +140,9 @@ public class PlayerController : MonoBehaviour
                 discard(card);
                 playerUI.cardPlayed = null;
                 cellSelected = null;
+                
+                // Uncomment this for debugging
+                // GetComponent<EnemySquad>().UpdateUI();
             }
         }
         // else pass

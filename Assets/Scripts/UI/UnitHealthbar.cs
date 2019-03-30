@@ -39,7 +39,7 @@ public class UnitHealthbar : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void UpdateUI()
+    public void UpdateUI()
     {
         updateHealth();
     }

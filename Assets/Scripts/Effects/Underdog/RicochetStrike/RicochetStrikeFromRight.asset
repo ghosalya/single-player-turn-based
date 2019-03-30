@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf1030febca5ba242aab27bbc11eacf6, type: 3}
+  m_Name: RicochetStrikeFromRight
+  m_EditorClassIdentifier: 
+  card: {fileID: 0}
+  attackFrom: 1
+  damage: 20
+  knockback: 1
+  prefab: {fileID: 7779922019881308249, guid: d57434327b229d840a93cf14d5d5beef, type: 3}

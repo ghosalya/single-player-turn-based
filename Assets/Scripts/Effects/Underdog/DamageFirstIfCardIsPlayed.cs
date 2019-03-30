@@ -13,12 +13,13 @@ public class DamageFirstIfCardIsPlayed : Effect
         if(cardIsPlayedThisTurn()) {
             GameObject battle = GameObject.FindGameObjectWithTag("Battle");
             PlayerController pcon = battle.GetComponent<PlayerController>();
+            EnemySquad esquad = battle.GetComponent<EnemySquad>();
             int column = pcon.cellSelected[0];
             GameObject enemy = battle.GetComponent<EnemySquad>().getFirstEnemyInColumn(column);
             if(enemy != null) {
                 int finalDamage = pcon.getModifiedDamage(damage);
                 enemy.GetComponent<UnitHealth>().takeDamage(finalDamage);
-                enemy.GetComponent<GridPosition>().row += knockback;
+                esquad.knockEnemyUp(enemy, knockback);
             }
             spawnAnimation(column);
         }
