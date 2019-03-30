@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     public int[] cellSelected = null;
     //public GameObject selectionCircle;
 
+    public List<Card> deck;
+
     public List<Card> drawPile;
     public List<Card> handCards;
     public List<Card> discardPile;
@@ -33,6 +35,9 @@ public class PlayerController : MonoBehaviour
         energy = 150;
 
         cellSelected = null;
+
+        // TODO: change this to OnBattleStart
+        initializeDrawPile();
 
         buffs = new List<Buff>();
         playerUI = GameObject.Find("BarsPanel").GetComponent<PlayerUI>();
@@ -119,18 +124,20 @@ public class PlayerController : MonoBehaviour
     */
 
     public void executePlayedCard() {
+        Card card = playerUI.cardPlayed.card;
         if(playerUI.cardPlayed != null) {
-            if(playerUI.cardPlayed.card.needTarget == false || cellSelected != null) {
-                energy -= playerUI.cardPlayed.card.cost;
-                foreach(Effect effect in playerUI.cardPlayed.card.effects)
+            if(card.needTarget == false || cellSelected != null) {
+                energy -= card.cost;
+                foreach(Effect effect in card.effects)
                 {
                     effect.activate();
                     FeedEventToBuffs("OnCardPlay");
                 }
 
-                turnHistory.Add(playerUI.cardPlayed.card);
+                turnHistory.Add(card);
                 // after playing, reset controller states
-                playerUI.destroyCards(playerUI.cardPlayed);
+                playerUI.destroyCardUI(playerUI.cardPlayed);
+                discard(card);
                 playerUI.cardPlayed = null;
                 cellSelected = null;
             }
@@ -171,6 +178,13 @@ public class PlayerController : MonoBehaviour
             int index = Random.Range(0, discardPile.Count);
             drawPile.Add(discardPile[index]);
             discardPile.RemoveAt(index);
+        }
+    }
+
+    public void initializeDrawPile() {
+        drawPile = new List<Card>();
+        foreach(Card card in deck) {
+            drawPile.Add(card.clone());
         }
     }
 

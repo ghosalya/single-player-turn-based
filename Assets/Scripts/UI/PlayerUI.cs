@@ -58,10 +58,8 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-    public void destroyCards(HandCardUI toBeDestroyed)
+    public void destroyCardUI(HandCardUI toBeDestroyed)
     {
-        pcon.handCards.Remove(toBeDestroyed.card);
-        pcon.discardPile.Add(toBeDestroyed.card);
         Destroy(toBeDestroyed.gameObject);
     }
 
