@@ -24,13 +24,17 @@ public class BattleManager : MonoBehaviour
     public void startTurn()
     {
         playerPhase = true;
-        gameObject.SendMessage("OnTurnStart");
+        playerController.OnTurnStart();
+        enemySquad.OnTurnStart();
+        // gameObject.SendMessage("OnTurnStart");
     }
 
     public void endTurn()
     {
         playerPhase = false;
-        gameObject.SendMessage("OnTurnEnd");
+        playerController.OnTurnEnd();
+        enemySquad.OnTurnEnd();
+        // gameObject.SendMessage("OnTurnEnd");
     }
 
     public bool victory()
