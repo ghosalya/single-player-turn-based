@@ -10,12 +10,13 @@ public class PlayerUI : MonoBehaviour
     public RawImage energyBar;
     public Text energyText;
     public GameObject cards;
-    private Vector3[] cardPosition = {new Vector3(400f,80f,0f), new Vector3(325f,80f,0f), new Vector3(250f,80f,0f), new Vector3(175f,80f,0f), new Vector3(100f,80f,0f)};
+    private Vector3 cardPosition = new Vector3(380f,80f,0f);
     private Vector3 position;
     private GameObject currentCard;
     public HandCardUI cardPlayed = null;
     public GameObject selectionCircle;
     public PlayerController pcon;
+    public List<GameObject> cardsInHand;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +29,7 @@ public class PlayerUI : MonoBehaviour
         //If there are cards in the hand, spawn card prefab and give it the info from the list
         if(pcon.startOfTurn == true)
         {
-            spawnCards(pcon.handCards.Count);
+            spawnCards(pcon.handCards);
             pcon.startOfTurn = false;
         }
 
@@ -43,15 +44,17 @@ public class PlayerUI : MonoBehaviour
         energyBar.rectTransform.sizeDelta = new Vector2(energywidth, 15);
     }
 
-    void spawnCards(int numOfCard)
+    void spawnCards(List<Card> toBeSpawned)
     {
         GameObject panel = GameObject.Find("HandCardPanel");
-        for(int i=0; i<numOfCard; i++)
+        for(int i=0; i<toBeSpawned.Count; i++)
         {
-            position = cardPosition[i];
+            Debug.Log("spawned 1 card");
+            position = cardPosition - new Vector3(cardsInHand.Count * 65, 0, 0);
             currentCard = Instantiate(cards, position, this.transform.rotation) as GameObject;
             currentCard.GetComponent<HandCardUI>().card = pcon.handCards[i];
             currentCard.transform.SetParent(panel.transform);
+            cardsInHand.Add(currentCard);
         }
     }
 
@@ -60,6 +63,18 @@ public class PlayerUI : MonoBehaviour
         pcon.handCards.Remove(toBeDestroyed.card);
         pcon.discardPile.Add(toBeDestroyed.card);
         Destroy(toBeDestroyed.gameObject);
+    }
+
+    public void emptyHand(List<GameObject> toBeDestroyed)
+    {
+        int size;
+        size = toBeDestroyed.Count;
+        for(int i=0; i<size;i++)
+        {
+            GameObject a = toBeDestroyed[0];
+            toBeDestroyed.Remove(a);
+            Destroy(a);
+        }
     }
 
     public void selectCardAsPlayed(HandCardUI card) {

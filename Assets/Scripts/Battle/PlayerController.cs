@@ -58,7 +58,6 @@ public class PlayerController : MonoBehaviour
 
     public void OnTurnEnd() {
         energy = Mathf.Clamp(energy + 100, 0, 150);
-
         // buff handling
         List<Buff> buffnext = new List<Buff>();
         foreach(Buff buff in buffs) {
@@ -66,7 +65,12 @@ public class PlayerController : MonoBehaviour
             if(buff.stack > 0) {buffnext.Add(buff);}
         }
         buffs = buffnext;
-
+        int toBeDiscarded = handCards.Count;
+        for(int i=0;i<toBeDiscarded;i++)
+        {
+            discard(handCards[0]);
+        }
+        playerUI.emptyHand(playerUI.cardsInHand);
         FeedEventToBuffs("OnTurnEnd");
     }
 
