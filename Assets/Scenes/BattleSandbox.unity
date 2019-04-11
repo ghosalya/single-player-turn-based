@@ -634,7 +634,7 @@ RectTransform:
   - {fileID: 760702420}
   - {fileID: 719219715}
   m_Father: {fileID: 1886590389}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -653,7 +653,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37b70236024799142b48eb1c9fbebd8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 4048164351646059075}
+  playerController: {fileID: 0}
+  playerUI: {fileID: 0}
   card: {fileID: 11400000, guid: 7f0463fce7fdfc84c8764eb27d6fcb00, type: 2}
   cardNameText: {fileID: 1205641773}
   cardCostText: {fileID: 760702421}
@@ -1678,7 +1679,8 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: [{fileID: 742563576}]
+  m_Children:
+  - {fileID: 742563576}
   m_Father: {fileID: 2126806524}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2175,7 +2177,7 @@ PrefabInstance:
     - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
         type: 3}
       propertyPath: drawPile.Array.size
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
         type: 3}
@@ -2223,6 +2225,36 @@ PrefabInstance:
       propertyPath: famil
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
+        type: 3}
+      propertyPath: drawPile.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: f46c69a3bdbdfec42961516c84950477,
+        type: 2}
+    - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
+        type: 3}
+      propertyPath: drawPile.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: f46c69a3bdbdfec42961516c84950477,
+        type: 2}
+    - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
+        type: 3}
+      propertyPath: drawPile.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: f46c69a3bdbdfec42961516c84950477,
+        type: 2}
+    - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
+        type: 3}
+      propertyPath: drawPile.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: f46c69a3bdbdfec42961516c84950477,
+        type: 2}
+    - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
+        type: 3}
+      propertyPath: drawPile.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: f46c69a3bdbdfec42961516c84950477,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15d5c20878f20f4c988daf47343cd42, type: 3}
 --- !u!1001 &4227094512133788419
