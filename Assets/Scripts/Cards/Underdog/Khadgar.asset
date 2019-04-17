@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a29e9fef2849e3c49ab2c060f507ab70, type: 3}
+  m_Name: Khadgar
+  m_EditorClassIdentifier: 
+  cardName: Khadgar
+  description: All Skill cards costs are halved this turn.
+  cost: 20
+  needTarget: 0
+  type: 2
+  effects:
+  - {fileID: 11400000, guid: 596b4909c0f3df343a5eeb2ca0082c15, type: 2}

@@ -10,6 +10,7 @@ public abstract class Buff : ScriptableObject
 
     public void ConsumeStack() {
         stack -= 1;
+        OnConsumed();
     }
 
     public void ConsumeStackOnTurnEnd() {
@@ -19,6 +20,15 @@ public abstract class Buff : ScriptableObject
     public virtual void OnEvent(string eventID) {}
     // Override this to have something happen in response
     // to an event. Possible events include: OnTurnStart, OnTurnEnd etc
+
+    public virtual void OnApplied() {}
+    // Override this to do something when this buff is applied
+
+    public virtual void OnConsumed() {}
+    // Override this to do something when a stack is consumed
+
+    public virtual void OnRemoved() {}
+    // Override this to do something when this buff is removed
 
     public virtual int AddBonusDamage(int damage)
     {

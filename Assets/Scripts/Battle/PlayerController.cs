@@ -80,7 +80,11 @@ public class PlayerController : MonoBehaviour
         List<Buff> buffnext = new List<Buff>();
         foreach(Buff buff in buffs) {
             buff.ConsumeStackOnTurnEnd();
-            if(buff.stack > 0) {buffnext.Add(buff);}
+            if(buff.stack > 0) {
+                buffnext.Add(buff);
+            } else {
+                buff.OnRemoved();
+            }
         }
         buffs = buffnext;
         int toBeDiscarded = handCards.Count;
