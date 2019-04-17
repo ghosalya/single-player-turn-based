@@ -27,6 +27,13 @@ public class PlayerController : MonoBehaviour
 
     public List<Buff> buffs;
 
+    public enum CardPile
+    {
+        HandCard,
+        Discard,
+        Draw
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +55,18 @@ public class PlayerController : MonoBehaviour
     {
         executePlayedCard();
 
+    }
+
+    public List<Card> getPile(CardPile pile) {
+        if (pile == CardPile.Discard) {
+            return discardPile;
+        } else if (pile == CardPile.Draw) {
+            return drawPile;
+        } else if (pile == CardPile.HandCard) {
+            return handCards;
+        } else {
+            return null;
+        }
     }
 
     public void OnTurnStart()

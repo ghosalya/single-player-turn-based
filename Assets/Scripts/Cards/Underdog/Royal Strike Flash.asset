@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Royal Strike Flash
   description: Deal 240 damage to all enemies.
-  cost: 0
+  cost: 10
   needTarget: 0
   type: 0
   effects:
   - {fileID: 11400000, guid: db789230b8b488945bd9def123327d0c, type: 2}
+  - {fileID: 11400000, guid: 1d3d9a6c6bd7ee742b6a8cdbcd809aee, type: 2}
