@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
         // temporary
         health = 500;
         energy = 150;
+        playerUI = GameObject.Find("BarsPanel").GetComponent<PlayerUI>();
 
         cellSelected = null;
 
@@ -40,7 +41,6 @@ public class PlayerController : MonoBehaviour
         initializeDrawPile();
 
         buffs = new List<Buff>();
-        playerUI = GameObject.Find("BarsPanel").GetComponent<PlayerUI>();
     }
 
     // Update is called once per frame
@@ -72,8 +72,6 @@ public class PlayerController : MonoBehaviour
             battleHistory.Add(card);
         }
         turnHistory.Clear();
-        Debug.Log("TurnHistory length " + turnHistory.Count.ToString());
-        Debug.Log("BattleHistory length " + battleHistory.Count.ToString());
         foreach(Card card in battleHistory) {
             Debug.Log("Played - " + card.cardName);
         }
@@ -96,7 +94,7 @@ public class PlayerController : MonoBehaviour
 
     public void draw(int drawCount)
     {
-        if(drawPile.Count == 0)
+        if(drawPile.Count < drawCount)
         {
             reshuffle();
         }
@@ -136,8 +134,9 @@ public class PlayerController : MonoBehaviour
 
                 turnHistory.Add(card);
                 // after playing, reset controller states
-                playerUI.destroyCardUI(playerUI.cardPlayed);
+                // playerUI.destroyCardUI(playerUI.cardPlayed);
                 discard(card);
+                playerUI.refreshHand();
                 playerUI.cardPlayed = null;
                 cellSelected = null;
                 
@@ -167,6 +166,7 @@ public class PlayerController : MonoBehaviour
         {
             handCards.Remove(card);
             discardPile.Add(card);
+            FeedEventToBuffs("OnDiscard");
         } else {
             Debug.LogError("Trying to discard a card that's not in the hand: " + card.cardName);
         }
@@ -182,6 +182,7 @@ public class PlayerController : MonoBehaviour
             drawPile.Add(discardPile[index]);
             discardPile.RemoveAt(index);
         }
+        FeedEventToBuffs("OnReshuffle");
     }
 
     public void initializeDrawPile() {

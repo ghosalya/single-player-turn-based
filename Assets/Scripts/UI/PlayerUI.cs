@@ -49,7 +49,7 @@ public class PlayerUI : MonoBehaviour
         GameObject panel = GameObject.Find("HandCardPanel");
         for(int i=0; i<toBeSpawned.Count; i++)
         {
-            Debug.Log("spawned 1 card");
+            // Debug.Log("spawned 1 card");
             position = cardPosition - new Vector3(cardsInHand.Count * 65, 0, 0);
             currentCard = Instantiate(cards, position, this.transform.rotation) as GameObject;
             currentCard.GetComponent<HandCardUI>().card = pcon.handCards[i];
@@ -73,6 +73,11 @@ public class PlayerUI : MonoBehaviour
             toBeDestroyed.Remove(a);
             Destroy(a);
         }
+    }
+
+    public void refreshHand() {
+        emptyHand(cardsInHand);
+        spawnCards(pcon.handCards);
     }
 
     public void selectCardAsPlayed(HandCardUI card) {

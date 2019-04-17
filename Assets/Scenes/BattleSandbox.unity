@@ -2539,7 +2539,7 @@ PrefabInstance:
         type: 3}
       propertyPath: deck.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 4e18cc64dd68eb84c832d851312ea9c7,
+      objectReference: {fileID: 11400000, guid: f0e47fc88f7424b44bfd930e6ec6ba05,
         type: 2}
     - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
         type: 3}
@@ -2637,5 +2637,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f46c69a3bdbdfec42961516c84950477,
         type: 2}
+    - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
+        type: 3}
+      propertyPath: playerUI
+      value: 
+      objectReference: {fileID: 1090164295}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15d5c20878f20f4c988daf47343cd42, type: 3}
