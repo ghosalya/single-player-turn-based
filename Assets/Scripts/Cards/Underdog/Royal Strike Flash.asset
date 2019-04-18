@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Royal Strike Flash
   m_EditorClassIdentifier: 
   cardName: Royal Strike Flash
-  description: Deal 240 damage to all enemies.
-  cost: 10
+  description: Deal 240 damage to all enemies. Adds a copy of itself to your hand.
+  cost: 20
   needTarget: 0
   type: 0
   effects:

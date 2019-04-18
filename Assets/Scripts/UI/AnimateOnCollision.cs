@@ -5,7 +5,7 @@ using UnityEngine;
 public class AnimateOnCollision : MonoBehaviour
 {
     // Start is called before the first frame update
-    public bool destroySelfOnCollision;
+    public bool destroySelfOnCollision = false;
     void Start()
     {
         
