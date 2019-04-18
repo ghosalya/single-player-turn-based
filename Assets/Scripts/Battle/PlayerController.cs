@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public int maxHealth = 500;
+    public int maxEnergy = 150;
     public int health { get; private set; }
     public int energy { get; private set; }
     public int[] block = new int[4];
@@ -249,5 +250,18 @@ public class PlayerController : MonoBehaviour
             finalBlockGain = buff.AddBonusBlock(finalBlockGain);
         }
         return finalBlockGain;
+    }
+
+    public void OnKill() {
+        FeedEventToBuffs("OnKill");
+    }
+
+    public void OnGainEnergy() {
+        FeedEventToBuffs("OnGainEnergy");
+    }
+
+    public void gainEnergy(int energyGain) {
+        energy = Mathf.Clamp(energy + energyGain, 0, maxEnergy);
+        SendMessage("OnGainEnergy");
     }
 }

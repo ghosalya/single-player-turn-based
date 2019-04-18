@@ -29,6 +29,8 @@ public class UnitHealthbar : MonoBehaviour
         healthbarNumber.text = unitHealth.health.ToString();
 
         if (unitHealth.health <= 0) {
+            GameObject battle = GameObject.FindGameObjectWithTag("Battle");
+            battle.SendMessage("OnKill");
             animateDeath();
         }
     }
