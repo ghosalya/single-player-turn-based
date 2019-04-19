@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 757cc30be2e02584999f0be50a0ba46e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroySelfOnCollision: 1
 --- !u!135 &7911957587844385165
 SphereCollider:
   m_ObjectHideFlags: 0
