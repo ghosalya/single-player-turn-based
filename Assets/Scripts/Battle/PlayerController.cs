@@ -223,6 +223,7 @@ public class PlayerController : MonoBehaviour
         if (damageTaken > 0) {
             block[column] = 0;
             health = Mathf.Clamp(health - damageTaken, 0, maxHealth);
+            playerUI.onTakingDamage(damageTaken);
         } else {
             block[column] -= damage;
         }

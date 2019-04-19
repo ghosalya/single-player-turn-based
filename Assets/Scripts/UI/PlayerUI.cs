@@ -9,6 +9,7 @@ public class PlayerUI : MonoBehaviour
     public Text healthtext;
     public RawImage energyBar;
     public Text energyText;
+    public DamageRedScreen damageRedScreen;
     public GameObject cards;
     private Vector3 cardPosition = new Vector3(380f,80f,0f);
     private Vector3 position;
@@ -97,4 +98,10 @@ public class PlayerUI : MonoBehaviour
             Debug.LogError("Card Unplayable: " + cardUI.card.cardName);
         }
     }
+
+    public void onTakingDamage(int damage) {
+        damageRedScreen.flashOnDamage(damage);
+    }
+
+
 }
