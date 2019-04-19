@@ -52,6 +52,15 @@ public class EnemySquad : MonoBehaviour
         enemies = deployedEnemies;
     }
 
+    public void summon(GameObject enemyPrefab, int row, int column) {
+        GameObject summonedEnemy = Instantiate(enemyPrefab);
+        enemies.Add(summonedEnemy);
+        
+        GridPosition gridpos = summonedEnemy.GetComponent<GridPosition>();
+        gridpos.column = column;
+        gridpos.row = row;
+    }
+
     public GameObject getFirstEnemyInColumn(int column)
     {
         GameObject nearestEnemy = null;
