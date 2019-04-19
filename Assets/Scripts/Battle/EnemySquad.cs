@@ -5,9 +5,10 @@ using UnityEngine;
 public class EnemySquad : MonoBehaviour
 {
     public List<GameObject> enemies;
-    public List<Vector2> enemySpawnPosition;
 
     public GameObject knockbackClashAnimation;
+
+    public EnemySquadSet[] possibleSquadSet;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,13 @@ public class EnemySquad : MonoBehaviour
 
     public void act()
     {
-        foreach(GameObject enemyObject in enemies)
+        // make a new list so that summoned units dont act this turn
+        List<GameObject> enemiesToAct = new List<GameObject>();
+        foreach(GameObject enemy in enemies) {
+            enemiesToAct.Add(enemy);
+        }
+
+        foreach(GameObject enemyObject in enemiesToAct)
         {
             enemyObject.GetComponent<UnitBehaviour>().act();
             enemyObject.SendMessage("UpdateUI");
@@ -35,16 +42,18 @@ public class EnemySquad : MonoBehaviour
 
     public void deploy()
     {
+        EnemySquadSet chosenSquadSet = possibleSquadSet[Random.Range(0, possibleSquadSet.Length)];
+
         List<GameObject> deployedEnemies = new List<GameObject>();
-        for (int i = 0; i < enemies.Count; i++)
+        for (int i = 0; i < chosenSquadSet.enemiesToDeploy.Count; i++)
         {
             // instantiating
-            GameObject enemyPrefab = enemies[i];
+            GameObject enemyPrefab = chosenSquadSet.enemiesToDeploy[i];
             GameObject deployedEnemy = Instantiate(enemyPrefab);
             deployedEnemies.Add(deployedEnemy);
 
             // setting GridPosition
-            Vector2 position = enemySpawnPosition[i];
+            Vector2 position = chosenSquadSet.enemyPosition[i];
             deployedEnemy.GetComponent<GridPosition>().column = (int) position.x;
             deployedEnemy.GetComponent<GridPosition>().row = (int) position.y;
         }
