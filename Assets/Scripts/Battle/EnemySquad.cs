@@ -7,6 +7,8 @@ public class EnemySquad : MonoBehaviour
     public List<GameObject> enemies;
     public List<Vector2> enemySpawnPosition;
 
+    public GameObject knockbackClashAnimation;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -128,6 +130,12 @@ public class EnemySquad : MonoBehaviour
         if (knockback > 0) {
             int nextRow = enemy.GetComponent<GridPosition>().row + 1;
             int nextColumn = enemy.GetComponent<GridPosition>().column;
+            if(nextRow < 1 || nextRow > 5) {
+                // edge of the field
+                enemy.GetComponent<UnitHealth>().takeDamage(40);
+                return;
+            }
+
             GameObject enemyAtSlot = getEnemyAtPosition(nextColumn, nextRow);
             if(enemyAtSlot == null) {
                 enemy.GetComponent<GridPosition>().row += 1;
@@ -136,11 +144,24 @@ public class EnemySquad : MonoBehaviour
                 // knock to someone else, both take 40 damage
                 enemy.GetComponent<UnitHealth>().takeDamage(40);
                 enemyAtSlot.GetComponent<UnitHealth>().takeDamage(40);
+                Vector3 clashPosition = new Vector3(
+                    (enemy.transform.position.x + enemyAtSlot.transform.position.x) / 2,
+                    3,
+                    (enemy.transform.position.z + enemyAtSlot.transform.position.z) / 2
+                );
+                GameObject clash = Instantiate(knockbackClashAnimation, clashPosition, Quaternion.identity);
+                Destroy(clash, 1);
                 Debug.Log("Knock Damage!");
             }
         } else if (knockback < 0) {
             int nextRow = enemy.GetComponent<GridPosition>().row - 1;
             int nextColumn = enemy.GetComponent<GridPosition>().column;
+            if(nextRow < 1 || nextRow > 5) {
+                // edge of the field
+                enemy.GetComponent<UnitHealth>().takeDamage(40);
+                return;
+            }
+
             GameObject enemyAtSlot = getEnemyAtPosition(nextColumn, nextRow);
             if(enemyAtSlot == null) {
                 enemy.GetComponent<GridPosition>().row -= 1;
@@ -149,6 +170,13 @@ public class EnemySquad : MonoBehaviour
                 // knock to someone else, both take 40 damage
                 enemy.GetComponent<UnitHealth>().takeDamage(40);
                 enemyAtSlot.GetComponent<UnitHealth>().takeDamage(40);
+                Vector3 clashPosition = new Vector3(
+                    (enemy.transform.position.x + enemyAtSlot.transform.position.x) / 2,
+                    3,
+                    (enemy.transform.position.z + enemyAtSlot.transform.position.z) / 2
+                );
+                GameObject clash = Instantiate(knockbackClashAnimation, clashPosition, Quaternion.identity);
+                Destroy(clash, 1);
                 Debug.Log("Knock Damage!");
             }
         }
@@ -159,6 +187,12 @@ public class EnemySquad : MonoBehaviour
         if (knockback > 0) {
             int nextRow = enemy.GetComponent<GridPosition>().row;
             int nextColumn = enemy.GetComponent<GridPosition>().column + 1;
+            if(nextColumn < 0 || nextColumn > 3) {
+                // edge of the field
+                enemy.GetComponent<UnitHealth>().takeDamage(40);
+                return;
+            }
+
             GameObject enemyAtSlot = getEnemyAtPosition(nextColumn, nextRow);
             if(enemyAtSlot == null) {
                 enemy.GetComponent<GridPosition>().column += 1;
@@ -167,11 +201,24 @@ public class EnemySquad : MonoBehaviour
                 // knock to someone else, both take 40 damage
                 enemy.GetComponent<UnitHealth>().takeDamage(40);
                 enemyAtSlot.GetComponent<UnitHealth>().takeDamage(40);
+                Vector3 clashPosition = new Vector3(
+                    (enemy.transform.position.x + enemyAtSlot.transform.position.x) / 2,
+                    3,
+                    (enemy.transform.position.z + enemyAtSlot.transform.position.z) / 2
+                );
+                GameObject clash = Instantiate(knockbackClashAnimation, clashPosition, Quaternion.identity);
+                Destroy(clash, 1);
                 Debug.Log("Knock Damage!");
             }
         } else if (knockback < 0) {
             int nextRow = enemy.GetComponent<GridPosition>().row;
             int nextColumn = enemy.GetComponent<GridPosition>().column - 1;
+            if(nextColumn < 0 || nextColumn > 3) {
+                // edge of the field
+                enemy.GetComponent<UnitHealth>().takeDamage(40);
+                return;
+            }
+
             GameObject enemyAtSlot = getEnemyAtPosition(nextColumn, nextRow);
             if(enemyAtSlot == null) {
                 enemy.GetComponent<GridPosition>().column -= 1;
@@ -180,6 +227,13 @@ public class EnemySquad : MonoBehaviour
                 // knock to someone else, both take 40 damage
                 enemy.GetComponent<UnitHealth>().takeDamage(40);
                 enemyAtSlot.GetComponent<UnitHealth>().takeDamage(40);
+                Vector3 clashPosition = new Vector3(
+                    (enemy.transform.position.x + enemyAtSlot.transform.position.x) / 2,
+                    3,
+                    (enemy.transform.position.z + enemyAtSlot.transform.position.z) / 2
+                );
+                GameObject clash = Instantiate(knockbackClashAnimation, clashPosition, Quaternion.identity);
+                Destroy(clash, 1);
                 Debug.Log("Knock Damage!");
             }
         }

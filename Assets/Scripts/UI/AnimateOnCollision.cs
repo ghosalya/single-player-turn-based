@@ -24,5 +24,7 @@ public class AnimateOnCollision : MonoBehaviour
         if(destroySelfOnCollision) {
             Destroy(gameObject);
         }
+        GameObject battle = GameObject.FindGameObjectWithTag("Battle");
+        battle.SendMessage("UpdateUI");
     }
 }

@@ -2141,11 +2141,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3473614805015053606, guid: 360932046b0580647a6612b50ced83d8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 360932046b0580647a6612b50ced83d8, type: 3}
 --- !u!1001 &4048164351646059074
@@ -2329,6 +2324,12 @@ PrefabInstance:
       propertyPath: enemySpawnPosition.Array.data[3].x
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4048164353055720289, guid: d15d5c20878f20f4c988daf47343cd42,
+        type: 3}
+      propertyPath: knockbackClashAnimation
+      value: 
+      objectReference: {fileID: 10153838, guid: 9665c634aa10b524fa80e0966b66134d,
+        type: 3}
     - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
         type: 3}
       propertyPath: drawPile.Array.size
@@ -2478,25 +2479,25 @@ PrefabInstance:
         type: 3}
       propertyPath: deck.Array.data[4]
       value: 
-      objectReference: {fileID: 11400000, guid: 88fb68d81e332e34786ab81ad03190d2,
+      objectReference: {fileID: 11400000, guid: f46c69a3bdbdfec42961516c84950477,
         type: 2}
     - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
         type: 3}
       propertyPath: deck.Array.data[5]
       value: 
-      objectReference: {fileID: 11400000, guid: f46c69a3bdbdfec42961516c84950477,
+      objectReference: {fileID: 11400000, guid: 7f0463fce7fdfc84c8764eb27d6fcb00,
         type: 2}
     - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
         type: 3}
       propertyPath: deck.Array.data[6]
       value: 
-      objectReference: {fileID: 11400000, guid: 482681ddd0f79194599e59c815d5bb2d,
+      objectReference: {fileID: 11400000, guid: 831bc7562289d104f9e3ec19edf66c81,
         type: 2}
     - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
         type: 3}
       propertyPath: deck.Array.data[7]
       value: 
-      objectReference: {fileID: 11400000, guid: 482681ddd0f79194599e59c815d5bb2d,
+      objectReference: {fileID: 11400000, guid: bcc22617d62bae94981fda131ebe7b98,
         type: 2}
     - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
         type: 3}
@@ -2508,19 +2509,19 @@ PrefabInstance:
         type: 3}
       propertyPath: deck.Array.data[9]
       value: 
-      objectReference: {fileID: 11400000, guid: f46c69a3bdbdfec42961516c84950477,
+      objectReference: {fileID: 11400000, guid: a2d0aa3f2f6da3240af6a5a15ded54d4,
         type: 2}
     - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
         type: 3}
       propertyPath: deck.Array.data[10]
       value: 
-      objectReference: {fileID: 11400000, guid: f46c69a3bdbdfec42961516c84950477,
+      objectReference: {fileID: 11400000, guid: 08dbff6a00b39774a8a94b6e7dc6cfc7,
         type: 2}
     - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
         type: 3}
       propertyPath: deck.Array.data[11]
       value: 
-      objectReference: {fileID: 11400000, guid: f46c69a3bdbdfec42961516c84950477,
+      objectReference: {fileID: 11400000, guid: 27bd6591f5253d24c8bb6463758ce5b1,
         type: 2}
     - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
         type: 3}
@@ -2532,13 +2533,13 @@ PrefabInstance:
         type: 3}
       propertyPath: deck.Array.data[13]
       value: 
-      objectReference: {fileID: 11400000, guid: f46c69a3bdbdfec42961516c84950477,
+      objectReference: {fileID: 11400000, guid: 555602dc5dadf934890469429bcddd88,
         type: 2}
     - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
         type: 3}
       propertyPath: deck.Array.data[14]
       value: 
-      objectReference: {fileID: 11400000, guid: f46c69a3bdbdfec42961516c84950477,
+      objectReference: {fileID: 11400000, guid: 99d90ec9ea6d1eb488e55acedd915d38,
         type: 2}
     - target: {fileID: 4048164353055720288, guid: d15d5c20878f20f4c988daf47343cd42,
         type: 3}
