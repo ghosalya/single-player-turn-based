@@ -31,7 +31,8 @@ public class PlayerUI : MonoBehaviour
         //If there are cards in the hand, spawn card prefab and give it the info from the list
         if(pcon.startOfTurn == true)
         {
-            spawnCards(pcon.handCards);
+            refreshHand();
+            // spawnCards(pcon.handCards);
             pcon.startOfTurn = false;
         }
 
@@ -58,10 +59,9 @@ public class PlayerUI : MonoBehaviour
         for(int i=0; i<toBeSpawned.Count; i++)
         {
             // Debug.Log("spawned 1 card");
-            position = cardPosition - new Vector3(cardsInHand.Count * 80, 0, 0);
-            currentCard = Instantiate(cards, position, this.transform.rotation) as GameObject;
+            currentCard = Instantiate(cards, panel.transform);
+            currentCard.GetComponent<RectTransform>().anchoredPosition = new Vector2(10 + (90 * i), 0);
             currentCard.GetComponent<HandCardUI>().card = pcon.handCards[i];
-            currentCard.transform.SetParent(panel.transform);
             cardsInHand.Add(currentCard);
         }
     }
