@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd8f29ae8c8b3164791cf1903d92f15d, type: 3}
   m_Name: AssuredReturnBuff
   m_EditorClassIdentifier: 
+  displayName: A. Return
   temporary: 1
-  stack: 0
+  stack: 1
   description: Draw 1 card whenever you discard 2 cards.
   triggeringEvent: OnDiscard
   eventCountToTrigger: 2

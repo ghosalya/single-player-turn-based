@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ba9e20f43423a148ace40baae9f32c5, type: 3}
   m_Name: KhadgarBuff
   m_EditorClassIdentifier: 
+  displayName: Khadgar
   temporary: 1
   stack: 1
   description: All Power cards have their cost halved this turn.

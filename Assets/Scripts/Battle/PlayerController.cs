@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
         draw(5);
         startOfTurn = true;
         FeedEventToBuffs("OnTurnStart");
+        playerUI.refreshPlayerUI();
     }
 
     public void FeedEventToBuffs(string eventID)
@@ -160,7 +161,7 @@ public class PlayerController : MonoBehaviour
                 // after playing, reset controller states
                 // playerUI.destroyCardUI(playerUI.cardPlayed);
                 discard(card);
-                playerUI.refreshHand();
+                playerUI.refreshPlayerUI();
                 playerUI.cardPlayed = null;
                 cellSelected = null;
                 

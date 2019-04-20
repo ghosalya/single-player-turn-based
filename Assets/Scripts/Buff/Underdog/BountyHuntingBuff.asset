@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed82ca784b1a47444bbe2e614df8e89d, type: 3}
   m_Name: BountyHuntingBuff
   m_EditorClassIdentifier: 
+  displayName: Bounty
   temporary: 1
   stack: 1
   description: This turn, gain 40 energy and draw 2 cards whenever you kill an enemy.

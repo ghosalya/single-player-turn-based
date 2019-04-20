@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Buff : ScriptableObject
 {
+    public string displayName;
     public bool temporary;
     public int stack;
     public string description;
@@ -15,6 +16,11 @@ public abstract class Buff : ScriptableObject
 
     public void ConsumeStackOnTurnEnd() {
         if(temporary) { ConsumeStack(); }
+    }
+
+    public Buff clone() {
+        Buff clone = Instantiate(this);
+        return clone;
     }
 
     public virtual void OnEvent(string eventID) {}

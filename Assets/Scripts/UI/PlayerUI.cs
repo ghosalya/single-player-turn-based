@@ -18,6 +18,7 @@ public class PlayerUI : MonoBehaviour
     public GameObject selectionCircle;
     public PlayerController pcon;
     public List<GameObject> cardsInHand;
+    public BuffPanelUI buffPanelUI;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +44,12 @@ public class PlayerUI : MonoBehaviour
         energyText.text = pcon.energy.ToString();
         float energywidth = 200 * pcon.energy / 150;
         energyBar.rectTransform.sizeDelta = new Vector2(energywidth, 15);
+
+        // Right click to cancel
+        if (Input.GetMouseButton(1)) {
+            cardPlayed = null;
+            selectionCircle.SetActive(false);
+        }
     }
 
     void spawnCards(List<Card> toBeSpawned)
@@ -79,6 +86,11 @@ public class PlayerUI : MonoBehaviour
     public void refreshHand() {
         emptyHand(cardsInHand);
         spawnCards(pcon.handCards);
+    }
+
+    public void refreshPlayerUI() {
+        refreshHand();
+        buffPanelUI.UpdateUI();
     }
 
     public void selectCardAsPlayed(HandCardUI card) {
