@@ -47,10 +47,11 @@ public class SlimeMagusBehaviour : UnitBehaviour
             }
         }
         GameObject slimeTarget = slimesToHeal[Random.Range(0, slimesToHeal.Count)];
-        healAnimation.transform.position = slimeTarget.transform.position;
-        healAnimation.transform.parent = slimeTarget.transform;
+        GameObject newHealAnimation = Instantiate(healAnimation.gameObject, slimeTarget.transform);
+        newHealAnimation.transform.position = new Vector3(0, 0, 0);
         slimeTarget.GetComponent<UnitHealth>().gainHealth(99999);
-        healAnimation.Play();
+        newHealAnimation.GetComponent<ParticleSystem>().Play();
+        Destroy(newHealAnimation, 1);
     }
 
     void healSelf() {

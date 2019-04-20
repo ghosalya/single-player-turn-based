@@ -211,9 +211,17 @@ public class PlayerController : MonoBehaviour
     }
 
     public void initializeDrawPile() {
-        drawPile = new List<Card>();
+        List<Card> toShuffle = new List<Card>();
         foreach(Card card in deck) {
-            drawPile.Add(card.clone());
+            toShuffle.Add(card.clone());
+        }
+        int cardCount = toShuffle.Count;
+
+        drawPile = new List<Card>();
+        for (int i =0; i < cardCount; i++) {
+            Card card = toShuffle[Random.Range(0, toShuffle.Count)];
+            drawPile.Add(card);
+            toShuffle.Remove(card);
         }
     }
 
@@ -265,5 +273,17 @@ public class PlayerController : MonoBehaviour
     public void gainEnergy(int energyGain) {
         energy = Mathf.Clamp(energy + energyGain, 0, maxEnergy);
         SendMessage("OnGainEnergy");
+    }
+
+    public void getBuff(Buff addedBuff) {
+        foreach (Buff curretBuff in buffs) {
+            if (curretBuff.displayName == addedBuff.displayName) {
+                curretBuff.stack += addedBuff.stack;
+                return;
+            }
+        }
+        // if no same buff found
+        buffs.Add(addedBuff.clone());
+        addedBuff.OnApplied();
     }
 }
