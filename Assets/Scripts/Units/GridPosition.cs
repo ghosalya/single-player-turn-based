@@ -13,6 +13,8 @@ public class GridPosition : MonoBehaviour
     public int column = 0;  // Leftmost column is column 0
     public int row = 0;  // Nearest row is row 0
 
+    public bool isUpdatingPosition = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +25,9 @@ public class GridPosition : MonoBehaviour
     void Update()
     {
         correctCoordinate();
-        moveToPosition();
+        if(isUpdatingPosition) {
+            moveToPosition();
+        }
     }
 
     void correctCoordinate()
@@ -35,15 +39,22 @@ public class GridPosition : MonoBehaviour
     void moveToPosition()
     {
         // Animation
+        Vector3 targetPosition = new Vector3(columnXOffset + (columnXFactor * column),
+                                            0,
+                                            rowYOffset + (rowYFactor * row));
         transform.position = Vector3.MoveTowards(
                                 transform.position,
-                                new Vector3(
-                                    columnXOffset + (columnXFactor * column),
-                                    0,
-                                    rowYOffset + (rowYFactor * row)
-                                ),
+                                targetPosition,
                                 moveSpeed * Time.deltaTime
                             );
+        if(Vector3.Distance(targetPosition, transform.position) < 0.1) {
+            transform.position = targetPosition;
+            isUpdatingPosition = false;
+        }
+    }
+
+    public void UpdateUI() {
+        isUpdatingPosition = true;
     }
 
     

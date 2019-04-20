@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public int maxHealth = 500;
+    public int maxEnergy = 150;
     public int health { get; private set; }
     public int energy { get; private set; }
     public int[] block = new int[4];
@@ -14,25 +15,40 @@ public class PlayerController : MonoBehaviour
     public int[] cellSelected = null;
     //public GameObject selectionCircle;
 
+    public List<Card> deck;
+
     public List<Card> drawPile;
     public List<Card> handCards;
     public List<Card> discardPile;
     public bool startOfTurn = false;
     public PlayerUI playerUI;
 
+    public List<Card> battleHistory = new List<Card>();
+    public List<Card> turnHistory = new List<Card>();
+
     public List<Buff> buffs;
+
+    public enum CardPile
+    {
+        HandCard,
+        Discard,
+        Draw
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         // temporary
         health = 500;
-        energy = 100;
+        energy = 150;
+        playerUI = GameObject.Find("BarsPanel").GetComponent<PlayerUI>();
 
         cellSelected = null;
 
+        // TODO: change this to OnBattleStart
+        initializeDrawPile();
+
         buffs = new List<Buff>();
-        playerUI = GameObject.Find("BarsPanel").GetComponent<PlayerUI>();
     }
 
     // Update is called once per frame
@@ -40,6 +56,18 @@ public class PlayerController : MonoBehaviour
     {
         executePlayedCard();
 
+    }
+
+    public List<Card> getPile(CardPile pile) {
+        if (pile == CardPile.Discard) {
+            return discardPile;
+        } else if (pile == CardPile.Draw) {
+            return drawPile;
+        } else if (pile == CardPile.HandCard) {
+            return handCards;
+        } else {
+            return null;
+        }
     }
 
     public void OnTurnStart()
@@ -58,11 +86,25 @@ public class PlayerController : MonoBehaviour
 
     public void OnTurnEnd() {
         energy = Mathf.Clamp(energy + 100, 0, 150);
+
+        // history handling
+        foreach(Card card in turnHistory) {
+            battleHistory.Add(card);
+        }
+        turnHistory.Clear();
+        foreach(Card card in battleHistory) {
+            Debug.Log("Played - " + card.cardName);
+        }
+
         // buff handling
         List<Buff> buffnext = new List<Buff>();
         foreach(Buff buff in buffs) {
             buff.ConsumeStackOnTurnEnd();
-            if(buff.stack > 0) {buffnext.Add(buff);}
+            if(buff.stack > 0) {
+                buffnext.Add(buff);
+            } else {
+                buff.OnRemoved();
+            }
         }
         buffs = buffnext;
         int toBeDiscarded = handCards.Count;
@@ -76,7 +118,7 @@ public class PlayerController : MonoBehaviour
 
     public void draw(int drawCount)
     {
-        if(drawPile.Count == 0)
+        if(drawPile.Count < drawCount)
         {
             reshuffle();
         }
@@ -105,18 +147,25 @@ public class PlayerController : MonoBehaviour
 
     public void executePlayedCard() {
         if(playerUI.cardPlayed != null) {
-            if(playerUI.cardPlayed.card.needTarget == false || cellSelected != null) {
-                energy -= playerUI.cardPlayed.card.cost;
-                foreach(Effect effect in playerUI.cardPlayed.card.effects)
+            Card card = playerUI.cardPlayed.card;
+            if(card.needTarget == false || cellSelected != null) {
+                energy -= card.cost;
+                foreach(Effect effect in card.effects)
                 {
                     effect.activate();
                     FeedEventToBuffs("OnCardPlay");
                 }
 
+                turnHistory.Add(card);
                 // after playing, reset controller states
-                playerUI.destroyCards(playerUI.cardPlayed);
+                // playerUI.destroyCardUI(playerUI.cardPlayed);
+                discard(card);
+                playerUI.refreshHand();
                 playerUI.cardPlayed = null;
                 cellSelected = null;
+                
+                // Uncomment this for debugging
+                // GetComponent<EnemySquad>().UpdateUI();
             }
         }
         // else pass
@@ -141,6 +190,7 @@ public class PlayerController : MonoBehaviour
         {
             handCards.Remove(card);
             discardPile.Add(card);
+            FeedEventToBuffs("OnDiscard");
         } else {
             Debug.LogError("Trying to discard a card that's not in the hand: " + card.cardName);
         }
@@ -155,6 +205,14 @@ public class PlayerController : MonoBehaviour
             int index = Random.Range(0, discardPile.Count);
             drawPile.Add(discardPile[index]);
             discardPile.RemoveAt(index);
+        }
+        FeedEventToBuffs("OnReshuffle");
+    }
+
+    public void initializeDrawPile() {
+        drawPile = new List<Card>();
+        foreach(Card card in deck) {
+            drawPile.Add(card.clone());
         }
     }
 
@@ -192,5 +250,18 @@ public class PlayerController : MonoBehaviour
             finalBlockGain = buff.AddBonusBlock(finalBlockGain);
         }
         return finalBlockGain;
+    }
+
+    public void OnKill() {
+        FeedEventToBuffs("OnKill");
+    }
+
+    public void OnGainEnergy() {
+        FeedEventToBuffs("OnGainEnergy");
+    }
+
+    public void gainEnergy(int energyGain) {
+        energy = Mathf.Clamp(energy + energyGain, 0, maxEnergy);
+        SendMessage("OnGainEnergy");
     }
 }

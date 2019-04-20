@@ -5,6 +5,7 @@ using UnityEngine;
 public class AnimateOnCollision : MonoBehaviour
 {
     // Start is called before the first frame update
+    public bool destroySelfOnCollision = false;
     void Start()
     {
         
@@ -20,6 +21,8 @@ public class AnimateOnCollision : MonoBehaviour
     {
         other.gameObject.SendMessage("UpdateUI");
         Debug.Log("Projectile hit");
-        Destroy(gameObject);
+        if(destroySelfOnCollision) {
+            Destroy(gameObject);
+        }
     }
 }

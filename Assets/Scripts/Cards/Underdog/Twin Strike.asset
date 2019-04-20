@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a29e9fef2849e3c49ab2c060f507ab70, type: 3}
+  m_Name: Twin Strike
+  m_EditorClassIdentifier: 
+  cardName: Twin Strike
+  description: Deal 40 damage to the first enemy in a lane. If "Twin Strike" has been
+    played before this turn, deal 80 damage instead and push enemy back.
+  cost: 35
+  needTarget: 1
+  type: 0
+  effects:
+  - {fileID: 11400000, guid: def81af18e84b9c429494afa62aade4f, type: 2}
+  - {fileID: 11400000, guid: 6572d779af9c3c543a1ea9a3b2c1e022, type: 2}

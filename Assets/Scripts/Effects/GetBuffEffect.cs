@@ -11,5 +11,6 @@ public class GetBuffEffect : Effect
         GameObject battle = GameObject.FindGameObjectWithTag("Battle");
         PlayerController pcon = battle.GetComponent<PlayerController>();
         pcon.buffs.Add(buff);
+        buff.OnApplied();
     }
 }

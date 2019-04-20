@@ -297,6 +297,7 @@ MonoBehaviour:
   moveSpeed: 50
   column: 0
   row: 1
+  isUpdatingPosition: 1
 --- !u!114 &2194545102107908277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,7 +310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 015135a52d3ea0d47bbe8034670317c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 500
   health: 0
   block: 0
 --- !u!114 &588846002
