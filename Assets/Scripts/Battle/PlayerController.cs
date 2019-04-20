@@ -35,6 +35,12 @@ public class PlayerController : MonoBehaviour
         Draw
     }
 
+    void Awake() {
+        // TODO: change this to OnBattleStart
+        initializeDrawPile();
+        buffs = new List<Buff>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,11 +50,6 @@ public class PlayerController : MonoBehaviour
         playerUI = GameObject.Find("BarsPanel").GetComponent<PlayerUI>();
 
         cellSelected = null;
-
-        // TODO: change this to OnBattleStart
-        initializeDrawPile();
-
-        buffs = new List<Buff>();
     }
 
     // Update is called once per frame
@@ -72,9 +73,9 @@ public class PlayerController : MonoBehaviour
 
     public void OnTurnStart()
     {
-        draw(5);
         startOfTurn = true;
         FeedEventToBuffs("OnTurnStart");
+        draw(5);
         playerUI.refreshPlayerUI();
     }
 
