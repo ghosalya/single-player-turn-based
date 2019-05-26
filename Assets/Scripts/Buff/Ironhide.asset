@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea20cd61a7430fb4ba771b1e8e12e17a, type: 3}
   m_Name: Ironhide
   m_EditorClassIdentifier: 
+  displayName: Ironhide
   temporary: 1
   stack: 1
   description: Block Gain +10

@@ -9,6 +9,7 @@ public class PlayerUI : MonoBehaviour
     public Text healthtext;
     public RawImage energyBar;
     public Text energyText;
+    public DamageRedScreen damageRedScreen;
     public GameObject cards;
     private Vector3 cardPosition = new Vector3(380f,80f,0f);
     private Vector3 position;
@@ -17,6 +18,7 @@ public class PlayerUI : MonoBehaviour
     public GameObject selectionCircle;
     public PlayerController pcon;
     public List<GameObject> cardsInHand;
+    public BuffPanelUI buffPanelUI;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +31,8 @@ public class PlayerUI : MonoBehaviour
         //If there are cards in the hand, spawn card prefab and give it the info from the list
         if(pcon.startOfTurn == true)
         {
-            spawnCards(pcon.handCards);
+            refreshHand();
+            // spawnCards(pcon.handCards);
             pcon.startOfTurn = false;
         }
 
@@ -42,6 +45,12 @@ public class PlayerUI : MonoBehaviour
         energyText.text = pcon.energy.ToString();
         float energywidth = 200 * pcon.energy / 150;
         energyBar.rectTransform.sizeDelta = new Vector2(energywidth, 15);
+
+        // Right click to cancel
+        if (Input.GetMouseButton(1)) {
+            cardPlayed = null;
+            selectionCircle.SetActive(false);
+        }
     }
 
     void spawnCards(List<Card> toBeSpawned)
@@ -50,10 +59,9 @@ public class PlayerUI : MonoBehaviour
         for(int i=0; i<toBeSpawned.Count; i++)
         {
             // Debug.Log("spawned 1 card");
-            position = cardPosition - new Vector3(cardsInHand.Count * 80, 0, 0);
-            currentCard = Instantiate(cards, position, this.transform.rotation) as GameObject;
+            currentCard = Instantiate(cards, panel.transform);
+            currentCard.GetComponent<RectTransform>().anchoredPosition = new Vector2(10 + (90 * i), 0);
             currentCard.GetComponent<HandCardUI>().card = pcon.handCards[i];
-            currentCard.transform.SetParent(panel.transform);
             cardsInHand.Add(currentCard);
         }
     }
@@ -80,6 +88,11 @@ public class PlayerUI : MonoBehaviour
         spawnCards(pcon.handCards);
     }
 
+    public void refreshPlayerUI() {
+        refreshHand();
+        buffPanelUI.UpdateUI();
+    }
+
     public void selectCardAsPlayed(HandCardUI card) {
         cardPlayed = card;
         if(cardPlayed.card.needTarget) {
@@ -97,4 +110,10 @@ public class PlayerUI : MonoBehaviour
             Debug.LogError("Card Unplayable: " + cardUI.card.cardName);
         }
     }
+
+    public void onTakingDamage(int damage) {
+        damageRedScreen.flashOnDamage(damage);
+    }
+
+
 }

@@ -8,6 +8,8 @@ public class UnitHealthbar : MonoBehaviour
     public static float ZScale = 0.0075f;
     public Transform healthbarPlane;
     public TextMesh healthbarNumber;
+    public Transform blockPlane;
+    public TextMesh blockNumber;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +29,15 @@ public class UnitHealthbar : MonoBehaviour
         UnitHealth unitHealth = GetComponent<UnitHealth>();
         healthbarPlane.localScale = new Vector3(XScale * unitHealth.health / unitHealth.maxHealth, 1, ZScale);
         healthbarNumber.text = unitHealth.health.ToString();
+
+        if(unitHealth.block <= 0) {
+            blockPlane.gameObject.SetActive(false);
+            blockNumber.gameObject.SetActive(false);
+        } else {
+            blockPlane.gameObject.SetActive(true);
+            blockNumber.gameObject.SetActive(true);
+            blockNumber.text = unitHealth.block.ToString();
+        }
 
         if (unitHealth.health <= 0) {
             GameObject battle = GameObject.FindGameObjectWithTag("Battle");

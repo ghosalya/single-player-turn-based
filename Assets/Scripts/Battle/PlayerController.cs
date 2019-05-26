@@ -35,6 +35,12 @@ public class PlayerController : MonoBehaviour
         Draw
     }
 
+    void Awake() {
+        // TODO: change this to OnBattleStart
+        initializeDrawPile();
+        buffs = new List<Buff>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,11 +50,6 @@ public class PlayerController : MonoBehaviour
         playerUI = GameObject.Find("BarsPanel").GetComponent<PlayerUI>();
 
         cellSelected = null;
-
-        // TODO: change this to OnBattleStart
-        initializeDrawPile();
-
-        buffs = new List<Buff>();
     }
 
     // Update is called once per frame
@@ -72,9 +73,10 @@ public class PlayerController : MonoBehaviour
 
     public void OnTurnStart()
     {
-        draw(5);
         startOfTurn = true;
         FeedEventToBuffs("OnTurnStart");
+        draw(5);
+        playerUI.refreshPlayerUI();
     }
 
     public void FeedEventToBuffs(string eventID)
@@ -160,7 +162,7 @@ public class PlayerController : MonoBehaviour
                 // after playing, reset controller states
                 // playerUI.destroyCardUI(playerUI.cardPlayed);
                 discard(card);
-                playerUI.refreshHand();
+                playerUI.refreshPlayerUI();
                 playerUI.cardPlayed = null;
                 cellSelected = null;
                 
@@ -210,9 +212,17 @@ public class PlayerController : MonoBehaviour
     }
 
     public void initializeDrawPile() {
-        drawPile = new List<Card>();
+        List<Card> toShuffle = new List<Card>();
         foreach(Card card in deck) {
-            drawPile.Add(card.clone());
+            toShuffle.Add(card.clone());
+        }
+        int cardCount = toShuffle.Count;
+
+        drawPile = new List<Card>();
+        for (int i =0; i < cardCount; i++) {
+            Card card = toShuffle[Random.Range(0, toShuffle.Count)];
+            drawPile.Add(card);
+            toShuffle.Remove(card);
         }
     }
 
@@ -223,6 +233,7 @@ public class PlayerController : MonoBehaviour
         if (damageTaken > 0) {
             block[column] = 0;
             health = Mathf.Clamp(health - damageTaken, 0, maxHealth);
+            playerUI.onTakingDamage(damageTaken);
         } else {
             block[column] -= damage;
         }
@@ -263,5 +274,17 @@ public class PlayerController : MonoBehaviour
     public void gainEnergy(int energyGain) {
         energy = Mathf.Clamp(energy + energyGain, 0, maxEnergy);
         SendMessage("OnGainEnergy");
+    }
+
+    public void getBuff(Buff addedBuff) {
+        foreach (Buff curretBuff in buffs) {
+            if (curretBuff.displayName == addedBuff.displayName) {
+                curretBuff.stack += addedBuff.stack;
+                return;
+            }
+        }
+        // if no same buff found
+        buffs.Add(addedBuff.clone());
+        addedBuff.OnApplied();
     }
 }

@@ -25,6 +25,11 @@ public class HandCardUI : MonoBehaviour
     {
         cardNameText.text = card.cardName;
         cardCostText.text = "Cost:" + card.cost.ToString();
+        if (playerController.canPlay(card)) {
+            cardCostText.color = new Color(0, 0, 0, 1);
+        } else {
+            cardCostText.color = new Color(1, 0, 0, 1);
+        }
         cardDescriptionText.text = card.description;
 
         if(this == playerUI.cardPlayed) {

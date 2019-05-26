@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eaf156f47c60df4fa05d0b8a643ce9b, type: 3}
   m_Name: Strengthened
   m_EditorClassIdentifier: 
+  displayName: Strengthened
   temporary: 1
   stack: 1
   description: Attack Damage +10
