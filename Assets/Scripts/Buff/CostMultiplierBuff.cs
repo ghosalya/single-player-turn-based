@@ -15,19 +15,19 @@ public class CostMultiplierBuff : Buff
         
         foreach(Card card in pcon.drawPile) {
             if(card.type == cardType) {
-                card.cost = (int) Mathf.Round(card.cost * multiplier);
+                card.costMultiplier *= multiplier;
             }
         }
         
         foreach(Card card in pcon.handCards) {
             if(card.type == cardType) {
-                card.cost = (int) Mathf.Round(card.cost * multiplier);
+                card.costMultiplier *= multiplier;
             }
         }
         
         foreach(Card card in pcon.discardPile) {
             if(card.type == cardType) {
-                card.cost = (int) Mathf.Round(card.cost * multiplier);
+                card.costMultiplier *= multiplier;
             }
         }
     }
