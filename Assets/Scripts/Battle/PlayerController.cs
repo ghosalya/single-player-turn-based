@@ -53,19 +53,17 @@ public class PlayerController : MonoBehaviour
     }
 
     private void constructDeck() {
-        deck.Add(new Strike().card());
-        deck.Add(new Strike().card());
+        deck.Add(new DualStrike().card());
+        deck.Add(new SubtleStrike().card());
         deck.Add(new Shield().card());
-        deck.Add(new Strike().card());
-        deck.Add(new Strike().card());
+        deck.Add(new SubtleStrike().card());
+        deck.Add(new DualStrike().card());
         deck.Add(new Shield().card());
-        deck.Add(new QuickSlash().card());
-        deck.Add(new QuickSlash().card());
-        deck.Add(new Bash().card());
+        deck.Add(new RapidStrike().card());
         deck.Add(new Shield().card());
         deck.Add(new Strategy().card());
         deck.Add(new Hyperblast().card());
-        deck.Add(new Block().card());
+        deck.Add(new RapidStrike().card());
         deck.Add(new Block().card());
         deck.Add(new Block().card());
     }
