@@ -6,6 +6,7 @@ public class AnimateOnCollision : MonoBehaviour
 {
     // Start is called before the first frame update
     public bool destroySelfOnCollision = false;
+    public UnitBehaviour.UnitAffiliation target = UnitBehaviour.UnitAffiliation.ENEMY;
     void Start()
     {
         
@@ -21,7 +22,8 @@ public class AnimateOnCollision : MonoBehaviour
     {
         other.gameObject.SendMessage("UpdateUI");
         Debug.Log("Projectile hit");
-        if(destroySelfOnCollision) {
+        UnitBehaviour unit = other.GetComponent<UnitBehaviour>();
+        if(destroySelfOnCollision && unit.affiliation == target) {
             playHitSFX();
             Destroy(gameObject);
         }
