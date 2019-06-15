@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
         deck.Add(new SubtleStrike().card());
         deck.Add(new Shield().card());
         deck.Add(new SubtleStrike().card());
+        deck.Add(new RicochetStrike().card());
         deck.Add(new DualStrike().card());
         deck.Add(new Shield().card());
         deck.Add(new RapidStrike().card());
@@ -65,7 +66,7 @@ public class PlayerController : MonoBehaviour
         deck.Add(new Hyperblast().card());
         deck.Add(new RapidStrike().card());
         deck.Add(new Block().card());
-        deck.Add(new Block().card());
+        deck.Add(new Sidestep().card());
     }
 
     // Update is called once per frame
