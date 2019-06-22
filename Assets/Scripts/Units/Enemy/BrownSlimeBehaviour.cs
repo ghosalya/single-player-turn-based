@@ -9,6 +9,11 @@ public class BrownSlimeBehaviour : UnitBehaviour
     public ParticleSystem attackAnimation;
     public GameObject slimeling;
     int turnCounter = 0;
+    
+    public void Start() {
+        playMonsterSFX();
+    }
+
     public override void act() {
         if (turnCounter == 0) {
             moveAndSpawnOrAttack();
@@ -49,6 +54,7 @@ public class BrownSlimeBehaviour : UnitBehaviour
     }
 
     void dealMeleeDamage(int column) {
+        playMonsterSFX();
         // damage player
         GameObject battle = GameObject.FindGameObjectWithTag("Battle");
         PlayerController pcon = battle.GetComponent<PlayerController>();
@@ -56,5 +62,11 @@ public class BrownSlimeBehaviour : UnitBehaviour
         attackAnimation.Play();
     }
 
+    void playMonsterSFX() {
+        GameObject hitSFX = GameObject.Find("MonsterSFX");
+        if (hitSFX != null) {
+            hitSFX.GetComponent<AudioSource>().Play();
+        }
+    }
 
 }

@@ -24,7 +24,7 @@ public class HandCardUI : MonoBehaviour
     void Update()
     {
         cardNameText.text = card.cardName;
-        cardCostText.text = "Cost:" + card.cost.ToString();
+        cardCostText.text = "Cost:" + card.cost().ToString();
         if (playerController.canPlay(card)) {
             cardCostText.color = new Color(0, 0, 0, 1);
         } else {

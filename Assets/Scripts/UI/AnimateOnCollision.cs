@@ -22,9 +22,17 @@ public class AnimateOnCollision : MonoBehaviour
         other.gameObject.SendMessage("UpdateUI");
         Debug.Log("Projectile hit");
         if(destroySelfOnCollision) {
+            playHitSFX();
             Destroy(gameObject);
         }
         GameObject battle = GameObject.FindGameObjectWithTag("Battle");
         battle.SendMessage("UpdateUI");
+    }
+
+    void playHitSFX() {
+        GameObject hitSFX = GameObject.Find("HitSFX");
+        if (hitSFX != null) {
+            hitSFX.GetComponent<AudioSource>().Play();
+        }
     }
 }

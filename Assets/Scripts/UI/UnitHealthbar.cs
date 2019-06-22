@@ -47,8 +47,13 @@ public class UnitHealthbar : MonoBehaviour
     }
 
     void animateDeath() {
-        EnemySquad squad = GameObject.FindGameObjectWithTag("Battle").GetComponent<EnemySquad>();
-        squad.enemies.Remove(gameObject);  // remove this from squad
+        if (GetComponent<UnitBehaviour>().affiliation == UnitBehaviour.UnitAffiliation.ENEMY) {
+            EnemySquad squad = GameObject.FindGameObjectWithTag("Battle").GetComponent<EnemySquad>();
+            squad.enemies.Remove(gameObject);  // remove this from squad
+        } else if (GetComponent<UnitBehaviour>().affiliation == UnitBehaviour.UnitAffiliation.FRIENDLY) {
+            PlayerController pcon = GameObject.FindGameObjectWithTag("Battle").GetComponent<PlayerController>();
+            pcon.summons.Remove(gameObject);
+        }
         Destroy(gameObject);
     }
 

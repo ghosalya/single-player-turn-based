@@ -20,6 +20,7 @@ public class BrownSlimelingBehaviour : UnitBehaviour
     }
 
     void evolve() {
+        playMonsterSFX();
         evolution.transform.position = gameObject.transform.position;
         GridPosition gridpos = GetComponent<GridPosition>();
         EnemySquad esquad = GameObject.FindGameObjectWithTag("Battle").GetComponent<EnemySquad>();
@@ -27,5 +28,12 @@ public class BrownSlimelingBehaviour : UnitBehaviour
         esquad.enemies.Remove(gameObject);
         evolutionAnimation.Play();
         Destroy(gameObject, 0.5f);
+    }
+    
+    void playMonsterSFX() {
+        GameObject hitSFX = GameObject.Find("MonsterSFX");
+        if (hitSFX != null) {
+            hitSFX.GetComponent<AudioSource>().Play();
+        }
     }
 }

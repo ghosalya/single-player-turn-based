@@ -9,17 +9,16 @@ public class PlayerController : MonoBehaviour
     public int health { get; private set; }
     public int energy { get; private set; }
     public int[] block = new int[4];
-    public GameObject familiar;
-    public Transform famil;
+    public List<GameObject> summons = new List<GameObject>();
 
     public int[] cellSelected = null;
     //public GameObject selectionCircle;
 
-    public List<Card> deck;
+    public List<Card> deck = new List<Card>();
 
-    public List<Card> drawPile;
-    public List<Card> handCards;
-    public List<Card> discardPile;
+    public List<Card> drawPile = new List<Card>();
+    public List<Card> handCards = new List<Card>();
+    public List<Card> discardPile = new List<Card>();
     public bool startOfTurn = false;
     public PlayerUI playerUI;
 
@@ -37,6 +36,7 @@ public class PlayerController : MonoBehaviour
 
     void Awake() {
         // TODO: change this to OnBattleStart
+        constructDeck();
         initializeDrawPile();
         buffs = new List<Buff>();
     }
@@ -50,6 +50,24 @@ public class PlayerController : MonoBehaviour
         playerUI = GameObject.Find("BarsPanel").GetComponent<PlayerUI>();
 
         cellSelected = null;
+    }
+
+    private void constructDeck() {
+        deck.Add(new Strike().card());
+        deck.Add(new Strike().card());
+        deck.Add(new Shield().card());
+        deck.Add(new Strike().card());
+        deck.Add(new Strike().card());
+        deck.Add(new Shield().card());
+        deck.Add(new QuickSlash().card());
+        deck.Add(new QuickSlash().card());
+        deck.Add(new Bash().card());
+        deck.Add(new Shield().card());
+        deck.Add(new Strategy().card());
+        deck.Add(new Hyperblast().card());
+        deck.Add(new Block().card());
+        deck.Add(new Block().card());
+        deck.Add(new Block().card());
     }
 
     // Update is called once per frame
@@ -135,7 +153,7 @@ public class PlayerController : MonoBehaviour
 
     public bool canPlay(Card card)
     {
-        return card.cost <= energy;
+        return card.cost() <= energy;
     }
 
     /*
@@ -151,13 +169,11 @@ public class PlayerController : MonoBehaviour
         if(playerUI.cardPlayed != null) {
             Card card = playerUI.cardPlayed.card;
             if(card.needTarget == false || cellSelected != null) {
-                energy -= card.cost;
-                foreach(Effect effect in card.effects)
-                {
-                    effect.activate();
-                    FeedEventToBuffs("OnCardPlay");
-                }
-
+                energy -= card.cost();
+                Debug.Log("Card played: " + card.cardName);
+                card.activate();
+                Debug.Log("Card finished playing: " + card.cardName);
+                FeedEventToBuffs("OnCardPlay");
                 turnHistory.Add(card);
                 // after playing, reset controller states
                 // playerUI.destroyCardUI(playerUI.cardPlayed);
@@ -172,19 +188,6 @@ public class PlayerController : MonoBehaviour
         }
         // else pass
     }
-
-    /*
-    public void play(Card card)
-    {
-        if(canPlay(card))
-        {
-            selectCardAsPlayed(card);
-        } else
-        {
-            Debug.LogError("Card Unplayable: " + card.cardName);
-        }
-    }
-    */
 
     public void discard(Card card)
     {
@@ -226,7 +229,30 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void takeDamage(int damage, int column)
+    public void takeDamage(int damage, int column) {
+        // damage is first reduced by block
+        int damageTaken = damage - block[column];
+        if (damageTaken < 0) {
+            block[column] -= damage;
+            return;
+        } else {
+            block[column] = 0;
+        }
+
+        GameObject damagedSummon = null;
+        foreach(GameObject summon in this.summons) {
+            if (summon.GetComponent<GridPosition>().column == column) {
+                if (damagedSummon == null) { damagedSummon = summon; }
+            }
+        }
+
+        // after block reduction, damage is either taken by player,
+        // or taken by the summon (in which case it doesn't spill to player)
+        if (damagedSummon != null) { takeSummonDamage(damageTaken, damagedSummon); }
+        else { takePlayerDamage(damageTaken, column); }
+    }
+
+    void takePlayerDamage(int damage, int column)
     {
 
         int damageTaken = damage - block[column];
@@ -237,6 +263,10 @@ public class PlayerController : MonoBehaviour
         } else {
             block[column] -= damage;
         }
+    }
+
+    void takeSummonDamage(int damage, GameObject prefab) {
+        prefab.GetComponent<UnitHealth>().takeDamage(damage);
     }
 
     public int getModifiedDamage(int originalDamage)
@@ -286,5 +316,23 @@ public class PlayerController : MonoBehaviour
         // if no same buff found
         buffs.Add(addedBuff.clone());
         addedBuff.OnApplied();
+    }
+
+    public void summon(GameObject prefab, int column) {
+        GameObject summoned = Instantiate(prefab, new Vector3(0, 0, -40), Quaternion.identity);
+        summoned.GetComponent<GridPosition>().row = 0;
+        summoned.GetComponent<GridPosition>().column = column;
+        this.summons.Add(summoned);
+    }
+
+    public GameObject getSummonAtFriendlyTile(int column) {
+        foreach(GameObject summoned in this.summons) {
+            if (summoned.GetComponent<GridPosition>().row == 0) {
+                if (summoned.GetComponent<GridPosition>().column == column) {
+                    return summoned;
+                }
+            }
+        }
+        return null;
     }
 }
