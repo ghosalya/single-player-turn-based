@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
     public PlayerController playerController;
     public EnemySquad enemySquad;
+
+    [SerializeField]
+    GameObject winPanel, losePanel;
 
     public bool playerPhase { get; private set; }
 
@@ -18,7 +22,8 @@ public class BattleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        winPanel.SetActive(victory());
+        losePanel.SetActive(defeat());
     }
 
     public void startTurn()
@@ -52,6 +57,10 @@ public class BattleManager : MonoBehaviour
     public bool defeat()
     {
         return playerController.health <= 0;
+    }
+
+    public void returnToWorld() {
+        SceneManager.LoadScene("Overworld");
     }
 
 
