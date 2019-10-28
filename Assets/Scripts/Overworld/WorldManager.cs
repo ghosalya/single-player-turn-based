@@ -45,11 +45,13 @@ public class WorldManager : MonoBehaviour
         if (generatedWorld[x, y] == null) {
             generatedWorld[x, y] = instantiateTile(x, y);
 
-            if (Random.Range(0f, 1f) < 0.6) {
+            float tileGenerateChance = 1f - 0.2f*Mathf.Abs(x - y);
+
+            if (Random.Range(0f, 1f) < tileGenerateChance) {
                 generateTile(x+1, y);
             }
 
-            if (Random.Range(0f, 1f) < 0.6) {
+            if (Random.Range(0f, 1f) < tileGenerateChance) {
                 generateTile(x, y+1);
             }
         }

@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
+    public SessionData sessionData;
     public PlayerController playerController;
     public EnemySquad enemySquad;
 
@@ -16,7 +17,21 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        initializeSession();
         startTurn();
+    }
+
+    void initializeSession() {
+        SessionData loadedData = SessionData.Load();
+        if (loadedData == null) {
+            Debug.Log("No data!");
+            return;
+        }
+
+        sessionData = loadedData;
+        playerController.health = loadedData.playerData.currentHealth;
+        playerController.maxHealth = loadedData.playerData.maxHealth;
+        playerController.maxEnergy = loadedData.playerData.maxEnergy;
     }
 
     // Update is called once per frame
@@ -60,8 +75,10 @@ public class BattleManager : MonoBehaviour
     }
 
     public void returnToWorld() {
+        sessionData.playerData.maxEnergy = playerController.maxEnergy;
+        sessionData.playerData.maxHealth = playerController.maxHealth;
+        sessionData.playerData.currentHealth = playerController.health;
+        SessionData.Save(sessionData);
         SceneManager.LoadScene("Overworld");
     }
-
-
 }

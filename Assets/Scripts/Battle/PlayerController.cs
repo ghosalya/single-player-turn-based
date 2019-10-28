@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public int maxHealth = 500;
     public int maxEnergy = 150;
-    public int health { get; private set; }
+    public int health;
     public int energy { get; private set; }
     public int[] block = new int[4];
     public List<GameObject> summons = new List<GameObject>();
@@ -44,8 +44,6 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // temporary
-        health = 500;
         energy = 150;
         playerUI = GameObject.Find("BarsPanel").GetComponent<PlayerUI>();
 
