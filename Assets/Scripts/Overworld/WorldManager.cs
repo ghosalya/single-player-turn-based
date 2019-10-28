@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WorldManager : MonoBehaviour
 {
@@ -12,13 +13,22 @@ public class WorldManager : MonoBehaviour
     [SerializeField]
     GameObject WorldTilePrefab;
 
+    SessionData sessionData;
+
     public int worldHeight = 5, worldWidth = 5;
 
     WorldTile[,] generatedWorld;
     // Start is called before the first frame update
     void Start()
     {
-        generateWorld();
+        SessionData savedData = SessionData.Load();
+
+        if ( savedData == null ) {
+            generateWorld();
+            saveWorld();
+        } else {
+            loadWorld(savedData);
+        }
     }
 
     void generateWorld() {
@@ -62,6 +72,54 @@ public class WorldManager : MonoBehaviour
             tile.GetComponent<WorldTile>().markVisited();
         }
         return tile.GetComponent<WorldTile>();
+    }
+
+    void saveWorld() {
+        if (sessionData == null) sessionData = new SessionData();
+        // sessionData.worldData.randomSeed = Random.state;
+        sessionData.worldData.playerX = getPlayerX();
+        sessionData.worldData.playerY = getPlayerY();
+
+        sessionData.worldData.generatedWorld = new int[worldWidth, worldHeight];
+        sessionData.worldData.visited = new bool[worldWidth, worldHeight];
+        for (int i = 0; i < worldWidth; i++) {
+            for (int j = 0; j < worldHeight; j++) {
+                WorldTile tile = generatedWorld[i, j];
+                if (tile != null) {
+                    sessionData.worldData.generatedWorld[i, j] = (int)tile.tileRoomType;
+                    sessionData.worldData.visited[i, j] = tile.visited;
+                } else {
+                    sessionData.worldData.generatedWorld[i, j] = -1; // -1 means room does not exists
+                }
+            }
+        }
+        SessionData.Save(sessionData);
+    }
+
+    void loadWorld(SessionData data) {
+        sessionData = data;
+        playerProceedingTarget = new Vector3(
+            data.worldData.playerX * 2,
+            0,
+            data.worldData.playerY * 2
+        );
+        playerPosition.transform.position = playerProceedingTarget;
+
+        generatedWorld = new WorldTile[worldWidth, worldHeight];
+        for (int i = 0; i < worldWidth; i++) {
+            for (int j = 0; j < worldHeight; j++) {
+
+                if (sessionData.worldData.generatedWorld[i, j] >= 0) {
+                    GameObject tileObject = Instantiate(WorldTilePrefab, new Vector3(i*2, 0, j*2), Quaternion.Euler(0, 0, 0));
+                    WorldTile tile = tileObject.GetComponent<WorldTile>();
+
+                    tile.tileRoomType = (RoomType)sessionData.worldData.generatedWorld[i, j];
+                    tile.visited = sessionData.worldData.visited[i, j];
+
+                    generatedWorld[i, j] = tile;
+                }
+            }
+        }
     }
 
     // Update is called once per frame
@@ -114,10 +172,14 @@ public class WorldManager : MonoBehaviour
             WorldTile currentTile = generatedWorld[getPlayerX(), getPlayerY()];
             if (!currentTile.visited) {
                 currentTile.markVisited();
+                saveWorld();
                 string[] roomNames = new string[]{"Battle", "Rest", "Shop"};
                 Debug.Log("Transition to " + roomNames[(int)currentTile.tileRoomType]);
-            }
 
+                if(currentTile.tileRoomType == RoomType.BATTLE) {
+                    SceneManager.LoadScene("BattleSandbox");
+                }
+            }
         }
     }
 }
