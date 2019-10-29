@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-class Strike : ICardFactory
+class DualStrike : ICardFactory
 {
     public Card card() {
         Card card = new Card();
-        card.cardName = "Strike";
-        card.description = "Deals 40 damage to the first unit in a lane.";
+        card.cardName = "Dual Strike";
+        card.description = "Deals 30 damage to the first unit in a lane with 1 knockback. Deals another 40 damage to the first unit in a random lane.";
         card.type = Card.CardType.ATTACK;
         card.needTarget = true;
-        card.baseCost = 30;
+        card.baseCost = 45;
         card.effects = new List<Effect>(){
-            new StrikeEffect(card, 40, 0, 5),
+            new StrikeEffect(card, 30, 1, 5),
+            new RandomStrikeEffect(card, 30, 0, 5),
         };
         return card;
     }
 }
 
-public class StrikeEffect : Effect
+public class RandomStrikeEffect : Effect
 {
     int damage, knockback, range;
-    public StrikeEffect(Card card, int damage, int knockback, int range) : base(card) {
+    public RandomStrikeEffect(Card card, int damage, int knockback, int range) : base(card) {
         this.damage = damage;
         this.knockback = knockback;
         this.range = Mathf.Min(range, 5);
@@ -33,7 +34,7 @@ public class StrikeEffect : Effect
         EnemySquad esquad = battle.GetComponent<EnemySquad>();
 
 
-        int column = pcon.cellSelected[0];
+        int column = Random.Range(0, 4);
         GameObject enemy = battle.GetComponent<EnemySquad>().getFirstEnemyInColumn(column);
         if(enemy != null) {
             if (enemy.GetComponent<GridPosition>().row <= range) {
@@ -41,35 +42,12 @@ public class StrikeEffect : Effect
                 int finalDamage = pcon.getModifiedDamage(damage);
                 enemy.GetComponent<UnitHealth>().takeDamage(finalDamage);
                 esquad.knockEnemyUp(enemy, knockback);
-                battle.GetComponent<AnimationController>().add(new StrikeAnim(column));
             } else {
                 Debug.Log(card.cardName + ": Missed (no enemy in range " + range.ToString() + ").");
             }
+            battle.GetComponent<AnimationController>().add(new StrikeAnim(column, 5));
         } else {
             Debug.Log(card.cardName + ": Target not found.");
         }
-    }
-}
-
-public class StrikeAnim : CardAnimation
-{ 
-    int column;
-    int lineOffset = 0;
-
-    public StrikeAnim(int column) {
-        this.column = column;
-    }
-
-    public StrikeAnim(int column, int lineOffset) {
-        // The bigger the offset, the later it will show
-        this.column = column;
-        this.lineOffset = lineOffset;
-    }
-
-    public override void animate() {
-        float x = GridPosition.columnXOffset + GridPosition.columnXFactor * column;
-        GameObject prefab = Resources.Load<GameObject>("Animation\\StrikeBullet");
-        GameObject instance = Object.Instantiate(prefab, new Vector3(x, 0, -40 - lineOffset), Quaternion.identity);
-        instance.SetActive(true);
     }
 }

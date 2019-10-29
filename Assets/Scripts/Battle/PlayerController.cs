@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public int maxHealth = 500;
     public int maxEnergy = 150;
-    public int health { get; private set; }
+    public int health;
     public int energy { get; private set; }
     public int[] block = new int[4];
     public List<GameObject> summons = new List<GameObject>();
@@ -44,8 +44,6 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // temporary
-        health = 500;
         energy = 150;
         playerUI = GameObject.Find("BarsPanel").GetComponent<PlayerUI>();
 
@@ -53,21 +51,20 @@ public class PlayerController : MonoBehaviour
     }
 
     private void constructDeck() {
-        deck.Add(new Strike().card());
-        deck.Add(new Strike().card());
+        deck.Add(new DualStrike().card());
+        deck.Add(new SubtleStrike().card());
         deck.Add(new Shield().card());
-        deck.Add(new Strike().card());
-        deck.Add(new Strike().card());
+        deck.Add(new SubtleStrike().card());
+        deck.Add(new RicochetStrike().card());
+        deck.Add(new DualStrike().card());
         deck.Add(new Shield().card());
-        deck.Add(new QuickSlash().card());
-        deck.Add(new QuickSlash().card());
-        deck.Add(new Bash().card());
+        deck.Add(new RapidStrike().card());
         deck.Add(new Shield().card());
         deck.Add(new Strategy().card());
         deck.Add(new Hyperblast().card());
+        deck.Add(new RapidStrike().card());
         deck.Add(new Block().card());
-        deck.Add(new Block().card());
-        deck.Add(new Block().card());
+        deck.Add(new Sidestep().card());
     }
 
     // Update is called once per frame
